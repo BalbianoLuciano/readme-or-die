@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { envolver } from '../src/sistemas/Tipografia';
+import { envolver, envolverSegmentos, textoDeLinea } from '../src/sistemas/Tipografia';
 
 describe('envolver', () => {
   it('deja intacto un texto que entra en una línea', () => {
@@ -58,5 +58,49 @@ describe('envolver', () => {
   it('reconstruye el texto original al unir las líneas', () => {
     const texto = 'Me acuerdo del pasillo, del dispenser de agua y de la planta que nadie regaba.';
     expect(envolver(texto, 20).join(' ')).toBe(texto);
+  });
+});
+
+describe('envolverSegmentos', () => {
+  it('conserva la etiqueta del dato en cada tramo de línea', () => {
+    const lineas = envolverSegmentos(
+      [{ texto: 'Llegué a ' }, { texto: 'Avenida Córdoba 1900', dato: 'd4' }, { texto: ' a las ' }, { texto: 'nueve y veinte', dato: 'd5' }, { texto: '.' }],
+      66,
+    );
+    expect(lineas).toEqual([
+      [
+        { texto: 'Llegué a ' },
+        { texto: 'Avenida Córdoba 1900', dato: 'd4' },
+        { texto: ' a las ' },
+        { texto: 'nueve y veinte', dato: 'd5' },
+        { texto: '.' },
+      ],
+    ]);
+  });
+
+  it('un dato que cae en el corte se reparte entre dos líneas con la misma etiqueta', () => {
+    const lineas = envolverSegmentos([{ texto: 'Fue el ' }, { texto: '14 de marzo de 2024', dato: 'd2' }, { texto: '.' }], 14);
+    expect(lineas.map(textoDeLinea)).toEqual(['Fue el 14 de', 'marzo de 2024.']);
+    expect(lineas[0].at(-1)).toEqual({ texto: '14 de', dato: 'd2' });
+    expect(lineas[1][0]).toEqual({ texto: 'marzo de 2024', dato: 'd2' });
+    expect(lineas[1][1]).toEqual({ texto: '.' });
+  });
+
+  it('el texto plano de las líneas coincide con envolver', () => {
+    const texto = 'Me habían citado a entregar la documentación del sistema nuevo. Martes 14 de marzo de 2024.';
+    const segmentos = [{ texto: 'Me habían citado a entregar la documentación del sistema nuevo. ' }, { texto: 'Martes', dato: 'd1' }, { texto: ' ' }, { texto: '14 de marzo de 2024', dato: 'd2' }, { texto: '.' }];
+    for (const columnas of [20, 33, 66]) {
+      expect(envolverSegmentos(segmentos, columnas).map(textoDeLinea)).toEqual(envolver(texto, columnas));
+    }
+  });
+
+  it('respeta párrafos aunque el salto esté dentro de un segmento', () => {
+    const lineas = envolverSegmentos([{ texto: 'uno\n\ndos ' }, { texto: 'tres', dato: 'd1' }], 66);
+    expect(lineas).toEqual([[{ texto: 'uno' }], [], [{ texto: 'dos ' }, { texto: 'tres', dato: 'd1' }]]);
+  });
+
+  it('un dato pegado a puntuación no la absorbe', () => {
+    const lineas = envolverSegmentos([{ texto: '(' }, { texto: 'piso 7', dato: 'd7' }, { texto: '),' }], 66);
+    expect(lineas[0]).toEqual([{ texto: '(' }, { texto: 'piso 7', dato: 'd7' }, { texto: '),' }]);
   });
 });
