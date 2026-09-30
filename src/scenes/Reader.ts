@@ -299,6 +299,7 @@ export class Reader extends Phaser.Scene {
     this.mode = 'box';
     this.scene.launch('Box', {
       mode,
+      from: 'Reader',
       factType: fact?.type,
       onClose: (note: Note | null) => {
         this.mode = previous;

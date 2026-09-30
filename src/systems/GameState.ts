@@ -71,7 +71,7 @@ export class GameState {
     this.amendments = new Map();
   }
 
-  /** Retrying after death: the box stays as it was, the document is reread clean. */
+  /** Retrying after death: the box stays as it was (notes, belongings, the document), the document is reread clean. */
   retry(): void {
     this.amendments = new Map();
   }

@@ -12,6 +12,8 @@ const TABS: Tab[] = ['notes', 'memories', 'archive', 'belongings'];
 
 interface BoxData {
   mode: 'view' | 'choose';
+  /** Scene to resume when the box closes. */
+  from: 'World' | 'Reader';
   factType?: FactType;
   onClose?: (note: Note | null) => void;
 }
@@ -76,8 +78,8 @@ export class Box extends Phaser.Scene {
   private close(note: Note | null): void {
     const cb = this.params.onClose;
     this.scene.stop();
-    if (cb) cb(note);
-    else this.scene.resume('World');
+    this.scene.resume(this.params.from);
+    cb?.(note);
   }
 
   private switchTab(delta: number): void {

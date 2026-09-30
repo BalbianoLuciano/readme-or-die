@@ -45,8 +45,10 @@ export class World extends Phaser.Scene {
     super('World');
   }
 
-  init(data: { levelId?: string }): void {
-    state.enterLevel(data.levelId ?? state.currentLevel);
+  init(data: { levelId?: string; retry?: boolean }): void {
+    // Retrying after death keeps the box as it was; entering a level afresh empties it.
+    if (data.retry) state.retry();
+    else state.enterLevel(data.levelId ?? state.currentLevel);
   }
 
   create(): void {
@@ -113,6 +115,23 @@ export class World extends Phaser.Scene {
 
     if (!state.introSeen) this.startIntro();
     else this.mode = 'free';
+
+    if (import.meta.env.DEV) this.exposeDebugHooks();
+  }
+
+  /** Dev only: lets automated playthroughs place the character without walking. Never shipped. */
+  private exposeDebugHooks(): void {
+    const hooks = {
+      state,
+      game: this.game,
+      teleport: (tx: number, ty: number, facing: Facing = 'front') => {
+        this.character.setPosition(tx * TILE + TILE / 2, ty * TILE + TILE);
+        this.body.reset(this.character.x, this.character.y);
+        this.facing = facing;
+        this.updateRange();
+      },
+    };
+    (window as unknown as { __rod: typeof hooks }).__rod = hooks;
   }
 
   update(): void {
@@ -172,7 +191,7 @@ export class World extends Phaser.Scene {
 
     if (k === 'e' || k === 'E' || k === ' ') this.inspect();
     else if (k === 'Tab') this.openReader();
-    else if (k === 'q' || k === 'Q') this.openOverlay('Box', { mode: 'view' });
+    else if (k === 'q' || k === 'Q') this.openOverlay('Box', { mode: 'view', from: 'World' });
   }
 
   private showText(content: string, onClose?: () => void): void {

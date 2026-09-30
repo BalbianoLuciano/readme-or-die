@@ -48,9 +48,8 @@ export class ClosedRecord extends Phaser.Scene {
     text(this, x, HEIGHT - 60, t('closed.retry'), 'ui', COLOR.inkFaded);
 
     this.input.keyboard!.once('keydown-ENTER', () => {
-      state.retry();
       this.scene.stop('World');
-      this.scene.start('World', { levelId: state.currentLevel });
+      this.scene.start('World', { levelId: state.currentLevel, retry: true });
     });
   }
 }

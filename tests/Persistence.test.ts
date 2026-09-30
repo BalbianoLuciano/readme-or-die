@@ -49,3 +49,27 @@ describe('Persistence', () => {
     expect(load(null)).toBeNull();
   });
 });
+
+describe('GameState.retry', () => {
+  it('keeps the box as it was and only clears the amendments', () => {
+    const s = new GameState();
+    s.enterLevel('level_01');
+    s.collectNote({ id: 'n', kind: 'correction', paper: 'p', text: 't' });
+    s.storeBelonging({ id: 'mug', name: 'La taza', text: 't' });
+    s.documentCollected = true;
+    s.amendments.set('f5', { factId: 'f5', operation: 'strike' });
+    s.retry();
+    expect(s.notes).toHaveLength(1);
+    expect(s.belongings).toHaveLength(1);
+    expect(s.documentCollected).toBe(true);
+    expect(s.amendments.size).toBe(0);
+  });
+
+  it('entering a level afresh empties the box', () => {
+    const s = new GameState();
+    s.enterLevel('level_01');
+    s.collectNote({ id: 'n', kind: 'correction', paper: 'p', text: 't' });
+    s.enterLevel('level_01');
+    expect(s.notes).toHaveLength(0);
+  });
+});
