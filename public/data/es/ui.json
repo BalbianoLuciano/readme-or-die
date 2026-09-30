@@ -1,0 +1,48 @@
+{
+  "title": { "start": "[Enter] empezar", "continue": "[Enter] continuar" },
+  "reader": { "page": "pág. {n} de {m}" },
+  "amend": {
+    "title": "DATO OBSERVADO",
+    "when": "Cambiar cuándo",
+    "where": "Cambiar dónde",
+    "strike": "Tachar la afirmación",
+    "restore": "Restituir el original",
+    "available": "{n} notas disponibles",
+    "available_one": "1 nota disponible",
+    "not_applicable": "no aplica",
+    "warning": "Tachar conserva la vida y pierde el recuerdo de forma definitiva.",
+    "apply": "[Enter] aplicar",
+    "back": "[Esc] volver"
+  },
+  "signoff": {
+    "title": "CONFORMIDAD",
+    "document": "Documento",
+    "amendments": "Enmiendas",
+    "strikes": "Tachaduras",
+    "final": "La firma es definitiva.",
+    "sign": "[F] firmar",
+    "back": "[Esc] volver"
+  },
+  "verdict": { "stamp": "CONFORME", "signature": "H. Argento" },
+  "closed": {
+    "title": "REGISTRO CERRADO",
+    "document": "Documento",
+    "signer": "Firmante",
+    "state": "Estado",
+    "state_value": "conforme",
+    "remarks": "Observaciones",
+    "remarks_value": "ninguna",
+    "observed": "Dato observado en revisión posterior:",
+    "immutable": "El registro no admite modificaciones.",
+    "retry": "[Enter] reintentar"
+  },
+  "box": {
+    "tabs": { "notes": "Notas", "memories": "Recuerdos", "archive": "Archivo", "belongings": "Pertenencias" },
+    "empty": "(vacío)",
+    "choose": "[Enter] elegir",
+    "close": "[Esc] cerrar",
+    "destroyed": "tachado"
+  },
+  "reflection": { "continue": "[Enter]" },
+  "fact_types": { "date": "fecha", "time": "hora", "place": "lugar", "name": "nombre", "number": "número" }
+}

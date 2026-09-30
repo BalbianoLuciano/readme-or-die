@@ -1,0 +1,16 @@
+{
+  "id": "level_01",
+  "file": "recuerdo_2024.md",
+  "year": 2024,
+  "body": "No me acuerdo de casi nada de ese año, pero me acuerdo de esa mañana porque fue la última vez que alguien me pidió que explicara algo.\n\nMe habían citado a entregar la documentación del sistema nuevo. {{f1}} {{f2}}. Salí temprano con la carpeta impresa, porque {{f3}} insistía en que el papel todavía servía para algo y yo le daba la razón para no discutir.\n\nLlegué a {{f4}} a las {{f5}}. Me acuerdo de la hora porque me quedé un rato afuera, en la vereda, mirando la puerta. No eran nervios. Era que ya sabía que iba a entrar, dejar {{f6}} sobre un escritorio, y que nadie las iba a leer.\n\nSubí al {{f7}}. Una sala de reuniones con una mesa demasiado grande para cuatro personas. Expliqué el sistema durante {{f8}}. Dos de ellos tomaron notas. Uno preguntó si eso no lo podía hacer una máquina, y se rieron, y yo también me reí.\n\nBajé, crucé la calle y me tomé un café en La Giralda, porque me quedaba de paso y porque no tenía ningún apuro por volver.\n\nY eso es todo. No pasó nada. Fue un día de semana como cualquier otro.",
+  "facts": [
+    { "id": "f1", "text": "Martes", "type": "date", "kind": "harmless_false", "correction": "jueves", "required_note": "note_calendar" },
+    { "id": "f2", "text": "14 de marzo de 2024", "type": "date", "kind": "correct" },
+    { "id": "f3", "text": "Sandoval", "type": "name", "kind": "correct" },
+    { "id": "f4", "text": "Avenida Córdoba 1900", "type": "place", "kind": "correct" },
+    { "id": "f5", "text": "nueve y veinte", "type": "time", "kind": "lethal", "correction": "ocho y veinte", "required_note": "note_meeting" },
+    { "id": "f6", "text": "cuarenta páginas", "type": "number", "kind": "correct" },
+    { "id": "f7", "text": "piso 7", "type": "number", "kind": "harmless_false", "correction": "piso 4", "required_note": "note_card" },
+    { "id": "f8", "text": "media hora", "type": "time", "kind": "correct" }
+  ]
+}

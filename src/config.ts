@@ -1,41 +1,41 @@
 import Phaser from 'phaser';
 
-/** Resolución interna. Escala ×3 exacto a 1080p. */
-export const ANCHO = 640;
-export const ALTO = 360;
+/** Internal resolution. Scales ×3 exactly to 1080p. */
+export const WIDTH = 640;
+export const HEIGHT = 360;
 
-/** Tamaño de tile y del personaje base. */
+/** Tile size and base character size. */
 export const TILE = 32;
-export const PERSONAJE = { ancho: 32, alto: 48 } as const;
+export const CHARACTER = { width: 32, height: 48 } as const;
 
-/** Color de fondo: el marco que sobra al escalar por enteros. */
-export const COLOR_FONDO = '#241E1A';
+/** Background colour: the frame left over by integer scaling. */
+export const BACKGROUND_COLOR = '#241E1A';
 
 /**
- * Zoom entero: el mayor entero que entra en la ventana, nunca menor que 1.
- * Nunca se escala a 1,5×. El sobrante queda como marco.
+ * Integer zoom: the largest integer that fits the window, never below 1.
+ * Never 1.5×. The remainder is left as a frame.
  */
-export function zoomEntero(anchoVentana: number, altoVentana: number): number {
-  return Math.max(1, Math.floor(Math.min(anchoVentana / ANCHO, altoVentana / ALTO)));
+export function integerZoom(windowWidth: number, windowHeight: number): number {
+  return Math.max(1, Math.floor(Math.min(windowWidth / WIDTH, windowHeight / HEIGHT)));
 }
 
-export function crearConfig(escenas: Phaser.Types.Scenes.SceneType[]): Phaser.Types.Core.GameConfig {
+export function createConfig(scenes: Phaser.Types.Scenes.SceneType[]): Phaser.Types.Core.GameConfig {
   return {
     type: Phaser.AUTO,
-    parent: 'juego',
-    width: ANCHO,
-    height: ALTO,
-    backgroundColor: COLOR_FONDO,
+    parent: 'game',
+    width: WIDTH,
+    height: HEIGHT,
+    backgroundColor: BACKGROUND_COLOR,
     pixelArt: true,
     roundPixels: true,
     scale: {
       mode: Phaser.Scale.NONE,
-      zoom: zoomEntero(window.innerWidth, window.innerHeight),
+      zoom: integerZoom(window.innerWidth, window.innerHeight),
     },
     physics: {
       default: 'arcade',
       arcade: { debug: false },
     },
-    scene: escenas,
+    scene: scenes,
   };
 }

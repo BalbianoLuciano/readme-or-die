@@ -1,44 +1,52 @@
 # readme-or-die
 
-Un juego donde tu vida depende de qué `.md` elegís.
+A game where your life depends on which `.md` you choose.
 
-Juego de supervivencia 2D para navegador, en pixel art y cámara tipo Pokémon. Sin combate, sin salto, sin temporizadores: caminar, leer, señalar, corregir, firmar.
+A 2D survival game for the browser, in pixel art with a Pokémon-style camera. No combat, no jumping, no timers: walk, read, point, correct, sign.
 
-**Estado: en construcción.** Todavía no hay nada jugable.
+**Status: under construction.** Level 1 is playable end to end with placeholder art.
 
-## Correr en local
+## Run locally
 
 ```sh
 npm install
 npm run dev
 ```
 
-Abre `http://localhost:5173/readme-or-die/`. Flechas o WASD para caminar.
+Open `http://localhost:5173/readme-or-die/`. Arrows or WASD to walk, E or Space to inspect, Tab to open the document, Q to open the box.
 
-| Comando | Qué hace |
+| Command | What it does |
 |---|---|
-| `npm run dev` | Dev server con recarga |
-| `npm test` | Tests de lógica pura (Vitest) |
-| `npm run typecheck` | Chequeo de tipos |
-| `npm run build` | Build de producción en `dist/` |
+| `npm run dev` | Dev server with reload |
+| `npm test` | Pure-logic tests and corpus validation (Vitest) |
+| `npm run typecheck` | Type check |
+| `npm run build` | Production build in `dist/` |
 
 ## Stack
 
-TypeScript · Phaser 3 · Vite · Tiled · Vitest. Todo libre. No se agrega una dependencia sin una razón escrita.
+TypeScript · Phaser 3 · Vite · Tiled · Vitest. All free. No dependency is added without a written reason.
 
-## Estructura
+## Structure
 
 ```
-public/data/       # corpus externo: mapas (Tiled), documentos y textos, editable sin recompilar
-public/assets/     # tilesets, sprites, fuentes, audio
-src/escenas/       # cada pantalla u overlay es una escena de Phaser
-src/sistemas/      # lógica pura: tipografía, corpus, enmiendas, estado, persistencia
-tests/             # solo lógica pura. El renderizado se valida jugando
+public/data/maps/        Tiled maps, locale-independent
+public/data/<locale>/    documents, texts and UI labels per language (es is the source)
+public/assets/           tilesets, sprites, fonts, audio
+src/scenes/              every screen or overlay is a Phaser scene
+src/systems/             pure logic: typography, corpus, amendments, state, persistence, i18n
+tools/                   generators for fonts, tilesets and maps
+tests/                   pure logic only; rendering is validated by playing
 ```
 
-## Licencias
+## Languages
+
+The player's texts are written in Spanish (Argentina) and live under `public/data/es/`. Translations go under `public/data/<locale>/` and must keep the exact structure of the source; the corpus test enforces it.
+
+## Licences
 
 | | |
 |---|---|
-| Código | [MIT](LICENSE) |
-| Contenido, arte y textos | [CC BY-SA 4.0](LICENSE-CONTENIDO.md) |
+| Code | [MIT](LICENSE) |
+| Content, art and texts | [CC BY-SA 4.0](LICENSE-CONTENT.md) |
+
+Third-party assets are listed in [CREDITS.md](CREDITS.md).

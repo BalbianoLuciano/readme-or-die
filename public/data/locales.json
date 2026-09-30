@@ -1,0 +1,7 @@
+{
+  "default": "es",
+  "locales": {
+    "es": { "name": "Español", "levels": ["level_01"] },
+    "en": { "name": "English", "levels": [] }
+  }
+}

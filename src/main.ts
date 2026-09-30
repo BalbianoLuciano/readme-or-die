@@ -1,9 +1,16 @@
 import Phaser from 'phaser';
-import { crearConfig, zoomEntero } from './config';
-import { Mundo } from './escenas/Mundo';
+import { createConfig, integerZoom } from './config';
+import { Box } from './scenes/Box';
+import { ClosedRecord } from './scenes/ClosedRecord';
+import { Reader } from './scenes/Reader';
+import { Reflection } from './scenes/Reflection';
+import { SignOff } from './scenes/SignOff';
+import { Title } from './scenes/Title';
+import { Verdict } from './scenes/Verdict';
+import { World } from './scenes/World';
 
-const juego = new Phaser.Game(crearConfig([Mundo]));
+const game = new Phaser.Game(createConfig([Title, World, Reader, Box, SignOff, Verdict, ClosedRecord, Reflection]));
 
 window.addEventListener('resize', () => {
-  juego.scale.setZoom(zoomEntero(window.innerWidth, window.innerHeight));
+  game.scale.setZoom(integerZoom(window.innerWidth, window.innerHeight));
 });

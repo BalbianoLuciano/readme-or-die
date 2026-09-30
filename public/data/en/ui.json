@@ -1,0 +1,48 @@
+{
+  "title": { "start": "[Enter] start", "continue": "[Enter] continue" },
+  "reader": { "page": "p. {n} of {m}" },
+  "amend": {
+    "title": "FACT UNDER REVIEW",
+    "when": "Change when",
+    "where": "Change where",
+    "strike": "Strike the statement",
+    "restore": "Restore the original",
+    "available": "{n} notes available",
+    "available_one": "1 note available",
+    "not_applicable": "not applicable",
+    "warning": "Striking keeps you alive and loses the memory for good.",
+    "apply": "[Enter] apply",
+    "back": "[Esc] back"
+  },
+  "signoff": {
+    "title": "SIGN-OFF",
+    "document": "Document",
+    "amendments": "Amendments",
+    "strikes": "Strikes",
+    "final": "The signature is final.",
+    "sign": "[F] sign",
+    "back": "[Esc] back"
+  },
+  "verdict": { "stamp": "APPROVED", "signature": "H. Argento" },
+  "closed": {
+    "title": "RECORD CLOSED",
+    "document": "Document",
+    "signer": "Signed by",
+    "state": "Status",
+    "state_value": "approved",
+    "remarks": "Remarks",
+    "remarks_value": "none",
+    "observed": "Fact flagged in later review:",
+    "immutable": "The record admits no changes.",
+    "retry": "[Enter] retry"
+  },
+  "box": {
+    "tabs": { "notes": "Notes", "memories": "Memories", "archive": "Archive", "belongings": "Belongings" },
+    "empty": "(empty)",
+    "choose": "[Enter] choose",
+    "close": "[Esc] close",
+    "destroyed": "struck"
+  },
+  "reflection": { "continue": "[Enter]" },
+  "fact_types": { "date": "date", "time": "time", "place": "place", "name": "name", "number": "number" }
+}
