@@ -79,9 +79,10 @@ export class World extends Phaser.Scene {
       solids.add(this.add.zone(o.x!, o.y!, o.width!, o.height!).setOrigin(0, 0));
       if (p.sprite === 'none') return;
       if (p.sprite) {
+        const drawBottom = bottom + (p.offset_y ?? 0);
         const image = p.tile
           ? this.add.tileSprite(o.x!, o.y!, o.width!, o.height!, p.sprite).setOrigin(0, 0)
-          : p.atlas === 'own' ? this.add.image(o.x!, bottom, p.sprite).setOrigin(0, 1) : this.add.image(o.x!, bottom, 'office_props', p.sprite).setOrigin(0, 1);
+          : p.atlas === 'own' ? this.add.image(o.x!, drawBottom, p.sprite).setOrigin(0, 1) : this.add.image(o.x!, drawBottom, 'office_props', p.sprite).setOrigin(0, 1);
         image.setDepth(bottom + (p.depth_offset ?? 0));
       } else {
         this.add.rectangle(o.x!, o.y!, o.width!, o.height!, 0x8c8072).setOrigin(0, 0).setDepth(bottom);

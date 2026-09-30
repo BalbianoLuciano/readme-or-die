@@ -43,6 +43,13 @@ def build_tileset(src: Path, out: Path) -> None:
         tile(floors, 1602, 32),  # 3 exit floor: plain cream
         tile(walls, 2861, 64),   # 4 wall top trim (moulding)
         tile(walls, 2989, 64),   # 5 wall baseboard
+        tile(walls, 3181, 64),   # 6 wainscot panel (lower wall)
+        tile(walls, 3052, 64),   # 7 pilaster top
+        tile(walls, 3116, 64),   # 8 pilaster face
+        tile(walls, 3180, 64),   # 9 pilaster base
+        tile(walls, 3064, 64), tile(walls, 3065, 64), tile(walls, 3066, 64),  # 10–12 window, top row (valance)
+        tile(walls, 3128, 64), tile(walls, 3129, 64), tile(walls, 3130, 64),  # 13–15 window, view
+        tile(walls, 3192, 64), tile(walls, 3193, 64), tile(walls, 3194, 64),  # 16–18 window, panel below
     ]
     sheet = Image.new('RGBA', (T * len(tiles), T), (0, 0, 0, 0))
     for i, t in enumerate(tiles):

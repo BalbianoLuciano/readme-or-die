@@ -63,6 +63,7 @@ export function propsOf(object: Phaser.Types.Tilemaps.TiledObject): Interactable
     sprite: typeof props.sprite === 'string' ? props.sprite : undefined,
     atlas: props.atlas === 'own' ? 'own' : undefined,
     tile: props.tile === true,
+    offset_y: typeof props.offset_y === 'number' ? props.offset_y : undefined,
     depth_offset: typeof props.depth_offset === 'number' ? props.depth_offset : undefined,
   };
 }

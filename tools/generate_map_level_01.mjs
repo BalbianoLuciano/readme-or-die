@@ -6,31 +6,40 @@
 // Walls are drawn with apparent height upwards: the top border is two tiles (trim + baseboard),
 // vertical walls are faces with a trim cap on top. The collision tile is the base.
 //
-// Plan (26×14, interior x 1–24, y 2–10). Three rooms in a line, doorways at y = 6:
-//   his office x 1–8 · kitchen x 10–16 · reception x 18–24. Exit corridor x 21, y 7–10: the turnstile blocks it, the door is at the far end.
+// Plan (26×15, interior x 1–24, y 3–11). Three rooms in a line, doorways at y = 7:
+//   his office x 1–8 · kitchen x 10–16 · reception x 18–24. Exit corridor x 21, y 8–11: the turnstile blocks it, the door is at the far end.
 import { writeFileSync } from 'node:fs';
 
-const W = 26, H = 14, T = 32;
-const FLOOR = 1, WALL = 2, EXIT = 3, TRIM = 4, BASE = 5;
-const DOOR_Y = 6;
+const W = 26, H = 15, T = 32;
+const FLOOR = 1, WALL = 2, EXIT = 3, TRIM = 4, BASE = 5, WAINSCOT = 6, PIL_TOP = 7, PIL_FACE = 8, PIL_BASE = 9;
+const WIN_TOP = [10, 11, 12], WIN_VIEW = [13, 14, 15], WIN_BASE = [16, 17, 18];
+// The top wall is three tiles tall: moulding, face, wainscot. Interior rows 3–11. Doorways at y = 7.
+const DOOR_Y = 7;
 const EXIT_X = 21;
+const PARTITIONS = [9, 17];
+const WINDOWS = [3, 19]; // left tile of each 3-wide window on the top wall
 
 const wall = Array.from({ length: H }, () => Array(W).fill(0));
 const isVertical = (x, y) =>
-  ((x === 9 || x === 17) && y >= 2 && y <= 10 && y !== DOOR_Y) ||
-  ((x === EXIT_X - 1 || x === EXIT_X + 1) && y >= 7 && y <= 10);
+  (PARTITIONS.includes(x) && y >= 3 && y <= 11 && y !== DOOR_Y) ||
+  ((x === EXIT_X - 1 || x === EXIT_X + 1) && y >= 8 && y <= 11);
 for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
-  if (y === 0) wall[y][x] = TRIM;
-  else if (y === 1) wall[y][x] = BASE;
-  else if (y === 11) wall[y][x] = TRIM;
-  else if (y > 11) wall[y][x] = WALL;
+  const pilaster = x === 0 || x === W - 1 || PARTITIONS.includes(x);
+  if (y === 0) wall[y][x] = pilaster ? PIL_TOP : TRIM;
+  else if (y === 1) wall[y][x] = pilaster ? PIL_FACE : WALL;
+  else if (y === 2) wall[y][x] = pilaster ? PIL_BASE : WAINSCOT;
+  else if (y === 12) wall[y][x] = TRIM;
+  else if (y > 12) wall[y][x] = WALL;
   else if (x === 0 || x === W - 1) wall[y][x] = WALL;
   else if (isVertical(x, y)) wall[y][x] = isVertical(x, y - 1) ? WALL : TRIM;
+}
+for (const wx of WINDOWS) for (let i = 0; i < 3; i++) {
+  wall[0][wx + i] = WIN_TOP[i]; wall[1][wx + i] = WIN_VIEW[i]; wall[2][wx + i] = WIN_BASE[i];
 }
 
 const floor = [], walls = [];
 for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
-  floor.push(x === EXIT_X && y === 10 ? EXIT : FLOOR);
+  floor.push(x === EXIT_X && y === 11 ? EXIT : FLOOR);
   walls.push(wall[y][x]);
 }
 
@@ -49,40 +58,40 @@ const own = (sprite, extra = {}) => ({ sprite, atlas: 'own', ...extra });
 // they fill the world and make it credible, and none of them talks.
 const props = [
   // his office
-  rect('chair_desk', 3, 2, 1, 1, { sprite: 'chair_front' }),
-  rect('bookshelf', 5, 2, 2, 2, { sprite: 'bookshelf' }),
-  rect('file_cabinet', 7, 2, 2, 2, { sprite: 'file_cabinet' }),
-  rect('clock', 4, 1, 1, 1, { sprite: 'clock' }),
-  rect('bin_office', 1, 5, 1, 1, { sprite: 'bin' }),
+  rect('chair_desk', 3, 3, 1, 1, { sprite: 'chair_front' }),
+  rect('bookshelf', 5, 3, 2, 2, { sprite: 'bookshelf' }),
+  rect('file_cabinet', 7, 3, 2, 2, { sprite: 'file_cabinet' }),
+  rect('clock', 7, 2, 1, 1, { sprite: 'clock', offset_y: -32 }),
+  rect('bin_office', 1, 6, 1, 1, { sprite: 'bin' }),
   // kitchen
-  rect('table', 12, 4, 3, 2, { sprite: 'table' }),
-  rect('coffee_cup', 13, 4, 1, 1, { sprite: 'coffee_cup', depth_offset: 40 }),
-  rect('chair_kitchen_l', 11, 4, 1, 1, { sprite: 'chair_side' }),
-  rect('chair_kitchen_r', 15, 4, 1, 1, { sprite: 'chair_side' }),
-  rect('coffee_maker', 11, 2, 1, 1, { sprite: 'coffee_maker' }),
-  rect('bin_kitchen', 10, 9, 1, 1, { sprite: 'bin' }),
+  rect('table', 12, 5, 3, 2, { sprite: 'table' }),
+  rect('coffee_cup', 13, 5, 1, 1, { sprite: 'coffee_cup', depth_offset: 40 }),
+  rect('chair_kitchen_l', 11, 5, 1, 1, { sprite: 'chair_side' }),
+  rect('chair_kitchen_r', 15, 5, 1, 1, { sprite: 'chair_side' }),
+  rect('coffee_maker', 11, 3, 1, 1, { sprite: 'coffee_maker' }),
+  rect('bin_kitchen', 10, 10, 1, 1, { sprite: 'bin' }),
   // reception
-  rect('counter', 20, 4, 3, 2, { sprite: 'counter' }),
-  rect('laptop', 21, 4, 1, 1, { sprite: 'laptop_open', depth_offset: 40 }),
-  rect('phone', 20, 4, 1, 1, { sprite: 'phone', depth_offset: 40 }),
-  rect('chair_wait_1', 18, 3, 1, 1, { sprite: 'chair_front' }),
-  rect('chair_wait_2', 19, 3, 1, 1, { sprite: 'chair_front' }),
-  rect('mailboxes', 23, 1, 2, 1, { sprite: 'mailboxes' }),
+  rect('counter', 20, 5, 3, 2, { sprite: 'counter' }),
+  rect('laptop', 21, 5, 1, 1, { sprite: 'laptop_open', depth_offset: 40 }),
+  rect('phone', 20, 5, 1, 1, { sprite: 'phone', depth_offset: 40 }),
+  rect('chair_wait_1', 18, 4, 1, 1, { sprite: 'chair_front' }),
+  rect('chair_wait_2', 19, 4, 1, 1, { sprite: 'chair_front' }),
+  rect('mailboxes', 23, 2, 2, 1, { sprite: 'mailboxes' }),
 ];
 const interactables = [
-  interactable('DRAWER', 3, 4, 1, 1, { note_id: 'note_meeting', sprite: 'none' }),
-  interactable('DESK', 2, 3, 3, 2, { mechanic: 'desk', sprite: 'desk_drawers' }),
-  interactable('CAL', 1, 1, 1, 1, { note_id: 'note_calendar', sprite: 'frame_wood' }),
-  interactable('CARDS', 5, 4, 1, 1, { note_id: 'note_card', ...own('prop_card_holder_32x32') }),
-  interactable('BOARD', 14, 1, 1, 1, { note_id: 'note_clipping', sprite: 'frame_plain' }),
-  interactable('DISPENSER', 10, 2, 1, 1, { sprite: 'cooler' }),
-  interactable('COPIER', 15, 2, 1, 1, { sprite: 'copier' }),
-  interactable('PLANT', 16, 9, 1, 1, own('prop_ficus_32x64')),
-  interactable('EVAC', 19, 1, 1, 1, { sprite: 'frame_plain' }),
-  interactable('COUNTER', 21, 5, 1, 1, { sprite: 'none' }),
-  interactable('TURNSTILE', EXIT_X, 7, 1, 1, own('prop_turnstile_32x48')),
+  interactable('DRAWER', 3, 5, 1, 1, { note_id: 'note_meeting', sprite: 'none' }),
+  interactable('DESK', 2, 4, 3, 2, { mechanic: 'desk', sprite: 'desk_drawers' }),
+  interactable('CAL', 1, 2, 1, 1, { note_id: 'note_calendar', sprite: 'frame_wood', offset_y: -32 }),
+  interactable('CARDS', 5, 5, 1, 1, { note_id: 'note_card', ...own('prop_card_holder_32x32') }),
+  interactable('BOARD', 13, 2, 1, 1, { note_id: 'note_clipping', sprite: 'frame_plain', offset_y: -32 }),
+  interactable('DISPENSER', 10, 3, 1, 1, { sprite: 'cooler' }),
+  interactable('COPIER', 15, 3, 2, 1, { sprite: 'copier' }),
+  interactable('PLANT', 16, 10, 1, 1, own('prop_ficus_32x64')),
+  interactable('EVAC', 18, 2, 1, 1, { sprite: 'frame_plain', offset_y: -32 }),
+  interactable('COUNTER', 21, 6, 1, 1, { sprite: 'none' }),
+  interactable('TURNSTILE', EXIT_X, 8, 1, 1, own('prop_turnstile_32x48')),
 ];
-const spawn = { id: nextId++, name: 'spawn', type: '', point: true, visible: true, rotation: 0, width: 0, height: 0, x: 3 * T + 16, y: 6 * T + 32 };
+const spawn = { id: nextId++, name: 'spawn', type: '', point: true, visible: true, rotation: 0, width: 0, height: 0, x: 3 * T + 16, y: 7 * T + 32 };
 
 const layer = (id, name, extra) => ({ id, name, visible: true, opacity: 1, x: 0, y: 0, ...extra });
 const map = {
@@ -90,9 +99,9 @@ const map = {
   orientation: 'orthogonal', renderorder: 'right-down',
   tiledversion: '1.11.0', type: 'map', version: '1.10',
   tileheight: T, tilewidth: T, nextlayerid: 6, nextobjectid: nextId,
-  tilesets: [{ columns: 5, firstgid: 1, image: '../../assets/tilesets/office_lpc.png',
-    imageheight: T, imagewidth: T * 5, margin: 0, spacing: 0, name: 'office_lpc',
-    tilecount: 5, tileheight: T, tilewidth: T }],
+  tilesets: [{ columns: 18, firstgid: 1, image: '../../assets/tilesets/office_lpc.png',
+    imageheight: T, imagewidth: T * 18, margin: 0, spacing: 0, name: 'office_lpc',
+    tilecount: 18, tileheight: T, tilewidth: T }],
   layers: [
     layer(1, 'floor', { type: 'tilelayer', width: W, height: H, data: floor }),
     layer(2, 'walls', { type: 'tilelayer', width: W, height: H, data: walls }),

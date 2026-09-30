@@ -89,6 +89,8 @@ export interface InteractableProps {
   atlas?: 'own';
   /** Repeat the image over the object's rectangle (rails, fences). */
   tile?: boolean;
+  /** Shift the drawing vertically (px) without moving the collision/interaction rectangle: frames hung higher on a wall. */
+  offset_y?: number;
   /** Added to the draw depth (bottom edge) when an object must sit on top of another. */
   depth_offset?: number;
 }
