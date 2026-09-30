@@ -21,6 +21,8 @@ Generated with [Retro Diffusion](https://retrodiffusion.ai/) (Game Asset style, 
 | `sprites/prop_rail_32x32.png` | Rails (generated, currently unused: the turnstile alone blocks the corridor) |
 | `ui/ui_paper_calendar_48x48.png`, `ui_paper_card_48x48.png`, `ui_paper_confirmation_48x48.png`, `ui_paper_clipping_48x48.png`, `ui_paper_document_48x48.png` | The papers in the box |
 | `ui/ui_portrait_homero_64x64.png` | The portrait in the reader |
+| `sprites/prop_drawer_open_32x32.png`, `prop_wall_calendar_32x32.png`, `prop_cork_board_32x32.png` | The three note-bearing objects, each showing its paper |
+| `sprites/prop_plant_palm_32x64.png`, `prop_plant_snake_32x48.png`, `prop_plant_desk_32x32.png` | Office plants |
 
 ## Tiles and sprites
 

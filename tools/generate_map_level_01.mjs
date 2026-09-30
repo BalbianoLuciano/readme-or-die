@@ -70,6 +70,7 @@ const props = [
   rect('chair_kitchen_r', 15, 5, 1, 1, { sprite: 'chair_side' }),
   rect('coffee_maker', 11, 3, 1, 1, { sprite: 'coffee_maker' }),
   rect('bin_kitchen', 10, 10, 1, 1, { sprite: 'bin' }),
+  rect('plant_snake', 16, 6, 1, 1, own('prop_plant_snake_32x48')),
   // reception
   rect('counter', 20, 5, 3, 2, { sprite: 'counter' }),
   rect('laptop', 21, 5, 1, 1, { sprite: 'laptop_open', depth_offset: 40 }),
@@ -77,13 +78,15 @@ const props = [
   rect('chair_wait_1', 18, 4, 1, 1, { sprite: 'chair_front' }),
   rect('chair_wait_2', 19, 4, 1, 1, { sprite: 'chair_front' }),
   rect('mailboxes', 23, 2, 2, 1, { sprite: 'mailboxes' }),
+  rect('plant_palm', 24, 4, 1, 1, own('prop_plant_palm_32x64')),
+  rect('plant_desk', 22, 5, 1, 1, own('prop_plant_desk_32x32', { depth_offset: 40 })),
 ];
 const interactables = [
-  interactable('DRAWER', 3, 5, 1, 1, { note_id: 'note_meeting', sprite: 'none' }),
+  interactable('DRAWER', 3, 5, 1, 1, { note_id: 'note_meeting', ...own('prop_drawer_open_32x32', { depth_offset: 1 }) }),
   interactable('DESK', 2, 4, 3, 2, { mechanic: 'desk', sprite: 'desk_drawers' }),
-  interactable('CAL', 1, 2, 1, 1, { note_id: 'note_calendar', sprite: 'frame_wood', offset_y: -32 }),
+  interactable('CAL', 1, 2, 1, 1, { note_id: 'note_calendar', ...own('prop_wall_calendar_32x32', { offset_y: -32 }) }),
   interactable('CARDS', 5, 5, 1, 1, { note_id: 'note_card', ...own('prop_card_holder_32x32') }),
-  interactable('BOARD', 13, 2, 1, 1, { note_id: 'note_clipping', sprite: 'frame_plain', offset_y: -32 }),
+  interactable('BOARD', 13, 2, 1, 1, { note_id: 'note_clipping', ...own('prop_cork_board_32x32', { offset_y: -32 }) }),
   interactable('DISPENSER', 10, 3, 1, 1, { sprite: 'cooler' }),
   interactable('COPIER', 15, 3, 2, 1, { sprite: 'copier' }),
   interactable('PLANT', 16, 10, 1, 1, own('prop_ficus_32x64')),
