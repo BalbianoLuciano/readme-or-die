@@ -19,9 +19,11 @@ interface Interactable {
   outline: Phaser.GameObjects.Rectangle;
 }
 
-/** Walk cycle rows in the character sheet: 9 frames each, frame 0 is standing. */
+/** Character sheet: 5 columns per row (column 0 standing, 1–4 walking), rows back/left/front/right. */
 const WALK_ROW: Record<Facing, number> = { back: 0, left: 1, front: 2, right: 3 };
-const WALK_FRAMES = 9;
+const WALK_FRAMES = 5;
+/** ~150 ms per frame: slow, tired. */
+const WALK_FPS = 7;
 
 const DELTA: Record<Facing, [number, number]> = {
   back: [0, -1],
@@ -93,12 +95,12 @@ export class World extends Phaser.Scene {
     const spawn = map.findObject('spawn', (o) => o.name === 'spawn');
     if (!spawn || spawn.x === undefined || spawn.y === undefined) throw new Error('World: the map has no "spawn"');
 
-    // The character: a 64×64 LPC frame anchored at the bottom centre, so the position is the feet.
-    // Borrowed art until phase C; the frame holds a 32×48 figure, as the design specifies.
+    // The character: a 64×64 frame anchored at the bottom centre, so the position is the feet.
+    // Feet sit at y = 60 of the cell (tools/build_character_sheet.py).
     this.createWalkAnimations();
     this.character = this.physics.add.sprite(spawn.x, spawn.y, 'homero', WALK_ROW.front * WALK_FRAMES).setOrigin(0.5, 1);
     this.body = this.character.body as Phaser.Physics.Arcade.Body;
-    this.body.setSize(24, 16).setOffset((64 - 24) / 2, 64 - 18);
+    this.body.setSize(24, 16).setOffset((64 - 24) / 2, 61 - 16);
     this.physics.add.collider(this.character, walls);
     this.physics.add.collider(this.character, solids);
 
@@ -171,7 +173,7 @@ export class World extends Phaser.Scene {
     for (const facing of Object.keys(WALK_ROW) as Facing[]) {
       const start = WALK_ROW[facing] * WALK_FRAMES;
       if (!this.anims.exists(`walk-${facing}`)) {
-        this.anims.create({ key: `walk-${facing}`, frames: this.anims.generateFrameNumbers('homero', { start: start + 1, end: start + WALK_FRAMES - 1 }), frameRate: 8, repeat: -1 });
+        this.anims.create({ key: `walk-${facing}`, frames: this.anims.generateFrameNumbers('homero', { start: start + 1, end: start + WALK_FRAMES - 1 }), frameRate: WALK_FPS, repeat: -1 });
       }
     }
   }

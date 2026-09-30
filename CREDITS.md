@@ -19,9 +19,11 @@ All borrowed art follows the Liberated Pixel Cup geometry (32×32 tiles, 64×64 
 | [LPC] Walls, tiles 2861, 2925, 2989 (beige panel: trim, face, baseboard) | bluecarrot16 and the authors listed in [CREDITS-walls.txt](public/assets/tilesets/source/CREDITS-walls.txt) | CC-BY-SA 3.0 | https://opengameart.org/content/lpc-walls | `office_lpc.png` tiles 2, 4 and 5 |
 | [LPC Revised] The Office: ornate desk, copy machine, water cooler, laptop, office portraits (frames), coffee maker, bins | Eliza Wyatt. Elements of the ornate desk and the office portraits use assets by Lanea Zimmerman (Sharm). See [CREDITS-the-office.txt](public/assets/sprites/source/CREDITS-the-office.txt) | OGA-BY 3.0 | https://opengameart.org/content/lpc-revised-the-office · https://github.com/ElizaWy/LPC | `office_props.png` atlas |
 
-### Character (`homero_lpc.png`)
+### Character (`char_homero_walk.png`)
 
-Composed from layers of the [Universal LPC Spritesheet Character Generator](https://github.com/sanderfrenken/Universal-LPC-Spritesheet-Character-Generator) (walk cycle only). Each layer keeps its own authors and licence:
+Homero Argento's sprites are the project's own art: generated with [PixelLab](https://www.pixellab.ai/) (v3 character, "Sad Walk" template) from the project's character brief, assembled by `tools/build_character_sheet.py` without hand edits. Licensed with the rest of the content under CC BY-SA 4.0.
+
+Until 2026-09-30 the character was a placeholder composed from layers of the [Universal LPC Spritesheet Character Generator](https://github.com/sanderfrenken/Universal-LPC-Spritesheet-Character-Generator); those layers are no longer in the repo. Their credits are kept for the history of the project:
 
 | Layer | Authors | Licence | Source |
 |---|---|---|---|

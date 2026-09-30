@@ -10,12 +10,10 @@ Usage:
   lpc-floors/lpc-floors/floors.png           https://opengameart.org/content/lpc-floors        (CC-BY-SA 4.0)
   lpc-walls/lpc-walls/walls.png              https://opengameart.org/content/lpc-walls         (CC-BY-SA 3.0)
   lpc_-_the_office/*.png                     https://opengameart.org/content/lpc-revised-the-office (OGA-BY 3.0)
-  char/<layer>.png                           https://github.com/sanderfrenken/Universal-LPC-Spritesheet-Character-Generator
 
 Outputs (committed, credited in CREDITS.md):
   public/assets/tilesets/office_lpc.png                 floor, wall face, exit floor, wall top trim, wall baseboard
   public/assets/sprites/office_props.png + .json         Phaser atlas (JSON hash) with the office props
-  public/assets/sprites/homero_lpc.png                   walk cycle, 9 frames × 4 rows (back, left, front, right), 64×64
 
 Requires Pillow (a local tool, not a project dependency).
 """
@@ -85,35 +83,11 @@ def build_props(src: Path, out_png: Path, out_json: Path) -> None:
     print(out_png, atlas.size, list(frames))
 
 
-def build_character(src: Path, out: Path) -> None:
-    # Layers in z order (zPos from the generator's sheet definitions).
-    layers = [
-        'shadow/adult/shadow.png',                                # 0
-        'body/bodies/male/light.png',                             # 10
-        'feet/shoes/male/black.png',                              # 15
-        'legs/formal/male/charcoal.png',                          # 20
-        'torso/clothes/longsleeve/formal/male/white.png',         # 35
-        'neck/tie/necktie/male/navy.png',                         # 90
-        'head/heads/human/male/light.png',                        # 100
-        'beards/beard/5oclock_shadow/dark_gray.png',              # 111
-        'hair/balding/adult/dark_gray.png',                       # 120
-    ]
-    W, H = 832, 1344  # the universal sheet; some layers carry extra rows below, ignored
-    out_img = Image.new('RGBA', (W, H), (0, 0, 0, 0))
-    for layer in layers:
-        out_img.alpha_composite(Image.open(src / 'char' / layer).convert('RGBA').crop((0, 0, W, H)))
-    # Walk cycle: rows 8–11 (back, left, front, right), 9 frames of 64×64.
-    walk = out_img.crop((0, 8 * 64, 9 * 64, 12 * 64))
-    walk.save(out)
-    print(out, walk.size)
-
-
 def main(sources: str) -> None:
     src = Path(sources)
     root = Path(__file__).resolve().parent.parent
     build_tileset(src, root / 'public/assets/tilesets/office_lpc.png')
     build_props(src, root / 'public/assets/sprites/office_props.png', root / 'public/assets/sprites/office_props.json')
-    build_character(src, root / 'public/assets/sprites/homero_lpc.png')
 
 
 if __name__ == '__main__':
