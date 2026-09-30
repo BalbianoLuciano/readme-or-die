@@ -213,7 +213,7 @@ export class Reader extends Phaser.Scene {
       { key: 'strike', label: t('amend.strike'), detail: '', enabled: true },
     ];
     if (state.amendments.has(fact.id)) this.options.push({ key: 'restore', label: t('amend.restore'), detail: '', enabled: true });
-    this.selected = this.options.findIndex((o) => o.enabled);
+    this.selected = Math.max(0, this.options.findIndex((o) => o.enabled));
     this.mode = 'amend';
     this.drawForm();
   }
@@ -251,14 +251,10 @@ export class Reader extends Phaser.Scene {
     this.form = c;
   }
 
+  /** The cursor visits every option, disabled ones included: their detail column says why they do not apply. */
   private moveSelection(delta: number): void {
     const n = this.options.length;
-    let i = this.selected;
-    for (let step = 0; step < n; step++) {
-      i = (i + delta + n) % n;
-      if (this.options[i].enabled) break;
-    }
-    this.selected = i;
+    this.selected = (this.selected + delta + n) % n;
     this.drawForm();
   }
 
