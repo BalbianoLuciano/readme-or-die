@@ -41,7 +41,8 @@ const rect = (name, x, y, w = 1, h = 1, props = {}) => ({
 });
 const interactable = (id, x, y, w, h, extra = {}) => rect(id, x, y, w, h, { id, text_id: id, is_document: false, ...extra });
 
-// `sprite` names a frame of office_props; 'none' draws nothing (another object draws it); absent → placeholder block.
+// `sprite` names a frame of office_props, or with atlas:'own' a standalone image in public/assets/sprites/<sprite>.png;
+// 'none' draws nothing (another object draws it); absent → placeholder block.
 const props = [
   rect('counter', 27, 6, 3, 2, { sprite: 'counter' }),
   rect('laptop', 28, 6, 1, 1, { sprite: 'laptop_open', depth_offset: 40 }),
@@ -56,7 +57,7 @@ const interactables = [
   interactable('BOARD', 18, 1, 1, 1, { note_id: 'note_clipping', sprite: 'frame_plain' }),
   interactable('DISPENSER', 14, 2, 1, 1, { sprite: 'cooler' }),
   interactable('COPIER', 20, 3, 1, 1, { sprite: 'copier' }),
-  interactable('PLANT', 21, 12, 1, 1),
+  interactable('PLANT', 21, 12, 1, 1, { sprite: 'prop_ficus_32x64', atlas: 'own' }),
   interactable('EVAC', 26, 1, 1, 1, { sprite: 'frame_plain' }),
   interactable('COUNTER', 28, 7, 1, 1, { sprite: 'none' }),
   interactable('TURNSTILE', 28, 10, 1, 1),

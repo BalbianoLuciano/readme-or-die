@@ -79,7 +79,8 @@ export class World extends Phaser.Scene {
       solids.add(this.add.zone(o.x!, o.y!, o.width!, o.height!).setOrigin(0, 0));
       if (p.sprite === 'none') return;
       if (p.sprite) {
-        this.add.image(o.x!, bottom, 'office_props', p.sprite).setOrigin(0, 1).setDepth(bottom + (p.depth_offset ?? 0));
+        const image = p.atlas === 'own' ? this.add.image(o.x!, bottom, p.sprite) : this.add.image(o.x!, bottom, 'office_props', p.sprite);
+        image.setOrigin(0, 1).setDepth(bottom + (p.depth_offset ?? 0));
       } else {
         this.add.rectangle(o.x!, o.y!, o.width!, o.height!, 0x8c8072).setOrigin(0, 0).setDepth(bottom);
       }

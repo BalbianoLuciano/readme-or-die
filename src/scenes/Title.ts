@@ -22,6 +22,8 @@ export class Title extends Phaser.Scene {
     this.load.bitmapFont(FONT.ui, 'assets/fonts/ark10.png', 'assets/fonts/ark10.xml');
     this.load.image('office_lpc', 'assets/tilesets/office_lpc.png');
     this.load.atlas('office_props', 'assets/sprites/office_props.png', 'assets/sprites/office_props.json');
+    // The project's own props, one image each, keyed by file name.
+    for (const own of ['prop_ficus_32x64']) this.load.image(own, `assets/sprites/${own}.png`);
     this.load.spritesheet('homero', 'assets/sprites/char_homero_walk.png', { frameWidth: 64, frameHeight: 64 });
 
     const saved = load();

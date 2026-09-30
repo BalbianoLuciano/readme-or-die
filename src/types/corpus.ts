@@ -83,6 +83,8 @@ export interface InteractableProps {
   mechanic?: 'desk';
   /** Frame of the props atlas that draws it; 'none' draws nothing; absent draws a placeholder block. */
   sprite?: string;
+  /** 'own': `sprite` is a standalone image key (the project's own art), not a frame of the borrowed atlas. */
+  atlas?: 'own';
   /** Added to the draw depth (bottom edge) when an object must sit on top of another. */
   depth_offset?: number;
 }
