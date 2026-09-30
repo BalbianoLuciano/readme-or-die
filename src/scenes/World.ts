@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { CHARACTER, TILE } from '../config';
+import { TILE } from '../config';
 import { getLevel, mapKey, propsOf } from '../systems/CorpusLoader';
 import { state } from '../systems/GameState';
 import type { InteractableProps, Level, Locale } from '../types/corpus';
@@ -15,8 +15,13 @@ const SPEED = TILE * 2;
 interface Interactable {
   props: InteractableProps;
   rect: Phaser.Geom.Rectangle;
-  drawing: Phaser.GameObjects.Rectangle;
+  /** The 1 px outline shown when the object is in range. */
+  outline: Phaser.GameObjects.Rectangle;
 }
+
+/** Walk cycle rows in the character sheet: 9 frames each, frame 0 is standing. */
+const WALK_ROW: Record<Facing, number> = { back: 0, left: 1, front: 2, right: 3 };
+const WALK_FRAMES = 9;
 
 const DELTA: Record<Facing, [number, number]> = {
   back: [0, -1],
@@ -31,7 +36,7 @@ const DELTA: Record<Facing, [number, number]> = {
  */
 export class World extends Phaser.Scene {
   private level!: Level;
-  private character!: Phaser.GameObjects.Rectangle;
+  private character!: Phaser.Physics.Arcade.Sprite;
   private body!: Phaser.Physics.Arcade.Body;
   private keys!: Record<'up' | 'down' | 'left' | 'right', Phaser.Input.Keyboard.Key[]>;
   private facing: Facing = 'front';
@@ -57,7 +62,7 @@ export class World extends Phaser.Scene {
     this.level = getLevel(this.cache, locale, state.currentLevel, map);
     this.registry.set('level', this.level);
 
-    const tileset = map.addTilesetImage('office_placeholder', 'office_placeholder');
+    const tileset = map.addTilesetImage('office_lpc', 'office_lpc');
     if (!tileset) throw new Error('World: the map tileset was not found');
     map.createLayer('floor', tileset, 0, 0);
     const walls = map.createLayer('walls', tileset, 0, 0);
@@ -65,32 +70,35 @@ export class World extends Phaser.Scene {
     walls.setCollisionByExclusion([-1]);
 
     const solids = this.physics.add.staticGroup();
-    const block = (o: Phaser.Types.Tilemaps.TiledObject): Phaser.GameObjects.Rectangle => {
-      const r = this.add.rectangle(o.x!, o.y!, o.width!, o.height!, 0x8c8072).setOrigin(0, 0);
-      r.setDepth(o.y! + o.height!);
-      solids.add(r);
-      return r;
+    // Every object blocks by its rectangle. It is drawn as a prop sprite anchored at its bottom-left,
+    // with apparent height upwards, or as a placeholder block when no sprite exists yet.
+    const place = (o: Phaser.Types.Tilemaps.TiledObject, p: InteractableProps): void => {
+      const bottom = o.y! + o.height!;
+      solids.add(this.add.zone(o.x!, o.y!, o.width!, o.height!).setOrigin(0, 0));
+      if (p.sprite === 'none') return;
+      if (p.sprite) {
+        this.add.image(o.x!, bottom, 'office_props', p.sprite).setOrigin(0, 1).setDepth(bottom + (p.depth_offset ?? 0));
+      } else {
+        this.add.rectangle(o.x!, o.y!, o.width!, o.height!, 0x8c8072).setOrigin(0, 0).setDepth(bottom);
+      }
     };
-    for (const o of map.getObjectLayer('props')?.objects ?? []) block(o);
+    for (const o of map.getObjectLayer('props')?.objects ?? []) place(o, propsOf(o));
     for (const o of map.getObjectLayer('interactables')?.objects ?? []) {
-      this.interactables.push({
-        props: propsOf(o),
-        rect: new Phaser.Geom.Rectangle(o.x!, o.y!, o.width!, o.height!),
-        drawing: block(o),
-      });
+      const p = propsOf(o);
+      place(o, p);
+      const outline = this.add.rectangle(o.x!, o.y!, o.width!, o.height!).setOrigin(0, 0).setStrokeStyle(1, COLOR.outline).setDepth(5000).setVisible(false);
+      this.interactables.push({ props: p, rect: new Phaser.Geom.Rectangle(o.x!, o.y!, o.width!, o.height!), outline });
     }
 
     const spawn = map.findObject('spawn', (o) => o.name === 'spawn');
     if (!spawn || spawn.x === undefined || spawn.y === undefined) throw new Error('World: the map has no "spawn"');
 
-    // A coloured rectangle as the character, anchored at the bottom centre: the position is the feet.
-    this.character = this.add
-      .rectangle(spawn.x, spawn.y, CHARACTER.width, CHARACTER.height, 0x7fa7c9)
-      .setOrigin(0.5, 1)
-      .setStrokeStyle(1, 0x241e1a);
-    this.physics.add.existing(this.character);
+    // The character: a 64×64 LPC frame anchored at the bottom centre, so the position is the feet.
+    // Borrowed art until phase C; the frame holds a 32×48 figure, as the design specifies.
+    this.createWalkAnimations();
+    this.character = this.physics.add.sprite(spawn.x, spawn.y, 'homero', WALK_ROW.front * WALK_FRAMES).setOrigin(0.5, 1);
     this.body = this.character.body as Phaser.Physics.Arcade.Body;
-    this.body.setSize(24, 16).setOffset(4, CHARACTER.height - 16);
+    this.body.setSize(24, 16).setOffset((64 - 24) / 2, 64 - 18);
     this.physics.add.collider(this.character, walls);
     this.physics.add.collider(this.character, solids);
 
@@ -137,6 +145,7 @@ export class World extends Phaser.Scene {
   update(): void {
     if (this.mode !== 'free') {
       this.body.setVelocity(0, 0);
+      this.animate(false);
       return;
     }
     const down = (group: Phaser.Input.Keyboard.Key[]) => group.some((k) => k.isDown);
@@ -154,7 +163,26 @@ export class World extends Phaser.Scene {
       this.body.setVelocity(0, 0);
     }
     this.character.setDepth(this.character.y);
+    this.animate(dx !== 0 || dy !== 0);
     this.updateRange();
+  }
+
+  private createWalkAnimations(): void {
+    for (const facing of Object.keys(WALK_ROW) as Facing[]) {
+      const start = WALK_ROW[facing] * WALK_FRAMES;
+      if (!this.anims.exists(`walk-${facing}`)) {
+        this.anims.create({ key: `walk-${facing}`, frames: this.anims.generateFrameNumbers('homero', { start: start + 1, end: start + WALK_FRAMES - 1 }), frameRate: 8, repeat: -1 });
+      }
+    }
+  }
+
+  private animate(moving: boolean): void {
+    if (moving) {
+      this.character.anims.play(`walk-${this.facing}`, true);
+    } else {
+      this.character.anims.stop();
+      this.character.setFrame(WALK_ROW[this.facing] * WALK_FRAMES);
+    }
   }
 
   // ----- intro -----
@@ -214,8 +242,8 @@ export class World extends Phaser.Scene {
     const now = this.interactables.find((i) => i.rect.contains(px, py)) ?? null;
     if (now === this.inRange) return;
     // A 1 px outline, no animation: the only sign that there is something to inspect.
-    this.inRange?.drawing.setStrokeStyle(0);
-    now?.drawing.setStrokeStyle(1, COLOR.outline);
+    this.inRange?.outline.setVisible(false);
+    now?.outline.setVisible(true);
     this.inRange = now;
   }
 

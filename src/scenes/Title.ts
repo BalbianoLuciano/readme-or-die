@@ -20,7 +20,9 @@ export class Title extends Phaser.Scene {
     this.load.baseURL = import.meta.env.BASE_URL;
     this.load.bitmapFont(FONT.body, 'assets/fonts/ark12.png', 'assets/fonts/ark12.xml');
     this.load.bitmapFont(FONT.ui, 'assets/fonts/ark10.png', 'assets/fonts/ark10.xml');
-    this.load.image('office_placeholder', 'assets/tilesets/office_placeholder.png');
+    this.load.image('office_lpc', 'assets/tilesets/office_lpc.png');
+    this.load.atlas('office_props', 'assets/sprites/office_props.png', 'assets/sprites/office_props.json');
+    this.load.spritesheet('homero', 'assets/sprites/homero_lpc.png', { frameWidth: 64, frameHeight: 64 });
 
     const saved = load();
     if (saved) state.loadPersistent(saved);

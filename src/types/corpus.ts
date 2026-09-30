@@ -81,6 +81,10 @@ export interface InteractableProps {
   note_id?: string;
   /** Special behaviour. `desk`: the level 1 opening. */
   mechanic?: 'desk';
+  /** Frame of the props atlas that draws it; 'none' draws nothing; absent draws a placeholder block. */
+  sprite?: string;
+  /** Added to the draw depth (bottom edge) when an object must sit on top of another. */
+  depth_offset?: number;
 }
 
 export interface Level {
