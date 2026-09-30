@@ -10,6 +10,8 @@ Usage:
   lpc-floors/lpc-floors/floors.png           https://opengameart.org/content/lpc-floors        (CC-BY-SA 4.0)
   lpc-walls/lpc-walls/walls.png              https://opengameart.org/content/lpc-walls         (CC-BY-SA 3.0)
   lpc_-_the_office/*.png                     https://opengameart.org/content/lpc-revised-the-office (OGA-BY 3.0)
+  furniture/dark-wood.png                    https://opengameart.org/content/lpc-wooden-furniture   (CC-BY-SA 4.0/3.0, GPL 3.0)
+  shelves/bookshelf-brown.png, drawer_shelf-brown.png   https://opengameart.org/content/lpc-shelves-rework (CC-BY-SA 3.0, GPL 3.0)
 
 Outputs (committed, credited in CREDITS.md):
   public/assets/tilesets/office_lpc.png                 floor, wall face, exit floor, wall top trim, wall baseboard
@@ -52,7 +54,11 @@ def build_tileset(src: Path, out: Path) -> None:
 def build_props(src: Path, out_png: Path, out_json: Path) -> None:
     office = src / 'lpc_-_the_office'
     sheets = {n: Image.open(office / f'{n}.png').convert('RGBA') for n in
-              ['Desk, Ornate', 'Copy Machine', 'Water Cooler', 'Laptop', 'Office Portraits', 'Coffee Maker', 'Bins']}
+              ['Desk, Ornate', 'Copy Machine', 'Water Cooler', 'Laptop', 'Office Portraits', 'Coffee Maker', 'Bins',
+               'Card Table', 'Rotary Phones', 'Mailboxes', 'Coffee Cup']}
+    sheets['wood'] = Image.open(src / 'furniture/dark-wood.png').convert('RGBA')
+    sheets['bookshelf'] = Image.open(src / 'shelves/bookshelf-brown.png').convert('RGBA')
+    sheets['drawer_shelf'] = Image.open(src / 'shelves/drawer_shelf-brown.png').convert('RGBA')
     # name: (sheet, x, y, w, h)
     frames = {
         'desk_drawers': ('Desk, Ornate', 0, 64, 96, 64),
@@ -64,6 +70,16 @@ def build_props(src: Path, out_png: Path, out_json: Path) -> None:
         'frame_wood': ('Office Portraits', 32, 0, 32, 32),
         'coffee_maker': ('Coffee Maker', 0, 0, 32, 64),
         'bin': ('Bins', 64, 64, 32, 32),
+        'bin_tall': ('Bins', 64, 0, 32, 64),
+        'table': ('Card Table', 0, 64, 96, 64),
+        'phone': ('Rotary Phones', 32, 0, 32, 32),
+        'mailboxes': ('Mailboxes', 16, 64, 64, 64),
+        'coffee_cup': ('Coffee Cup', 0, 0, 32, 32),
+        'chair_front': ('wood', 448, 640, 32, 32),
+        'chair_side': ('wood', 480, 640, 32, 32),
+        'clock': ('wood', 128, 672, 32, 32),
+        'bookshelf': ('bookshelf', 0, 0, 64, 96),
+        'file_cabinet': ('drawer_shelf', 0, 0, 64, 96),
     }
     # Pack in a row with 1 px gutters.
     width = sum(f[3] + 1 for f in frames.values()) + 1

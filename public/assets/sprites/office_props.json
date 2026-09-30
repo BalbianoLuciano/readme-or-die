@@ -179,13 +179,213 @@
     "w": 32,
     "h": 32
    }
+  },
+  "bin_tall": {
+   "frame": {
+    "x": 458,
+    "y": 1,
+    "w": 32,
+    "h": 64
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 32,
+    "h": 64
+   },
+   "sourceSize": {
+    "w": 32,
+    "h": 64
+   }
+  },
+  "table": {
+   "frame": {
+    "x": 491,
+    "y": 1,
+    "w": 96,
+    "h": 64
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 96,
+    "h": 64
+   },
+   "sourceSize": {
+    "w": 96,
+    "h": 64
+   }
+  },
+  "phone": {
+   "frame": {
+    "x": 588,
+    "y": 1,
+    "w": 32,
+    "h": 32
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 32,
+    "h": 32
+   },
+   "sourceSize": {
+    "w": 32,
+    "h": 32
+   }
+  },
+  "mailboxes": {
+   "frame": {
+    "x": 621,
+    "y": 1,
+    "w": 64,
+    "h": 64
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 64,
+    "h": 64
+   },
+   "sourceSize": {
+    "w": 64,
+    "h": 64
+   }
+  },
+  "coffee_cup": {
+   "frame": {
+    "x": 686,
+    "y": 1,
+    "w": 32,
+    "h": 32
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 32,
+    "h": 32
+   },
+   "sourceSize": {
+    "w": 32,
+    "h": 32
+   }
+  },
+  "chair_front": {
+   "frame": {
+    "x": 719,
+    "y": 1,
+    "w": 32,
+    "h": 32
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 32,
+    "h": 32
+   },
+   "sourceSize": {
+    "w": 32,
+    "h": 32
+   }
+  },
+  "chair_side": {
+   "frame": {
+    "x": 752,
+    "y": 1,
+    "w": 32,
+    "h": 32
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 32,
+    "h": 32
+   },
+   "sourceSize": {
+    "w": 32,
+    "h": 32
+   }
+  },
+  "clock": {
+   "frame": {
+    "x": 785,
+    "y": 1,
+    "w": 32,
+    "h": 32
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 32,
+    "h": 32
+   },
+   "sourceSize": {
+    "w": 32,
+    "h": 32
+   }
+  },
+  "bookshelf": {
+   "frame": {
+    "x": 818,
+    "y": 1,
+    "w": 64,
+    "h": 96
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 64,
+    "h": 96
+   },
+   "sourceSize": {
+    "w": 64,
+    "h": 96
+   }
+  },
+  "file_cabinet": {
+   "frame": {
+    "x": 883,
+    "y": 1,
+    "w": 64,
+    "h": 96
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 64,
+    "h": 96
+   },
+   "sourceSize": {
+    "w": 64,
+    "h": 96
+   }
   }
  },
  "meta": {
   "image": "office_props.png",
   "size": {
-   "w": 458,
-   "h": 66
+   "w": 948,
+   "h": 98
   },
   "scale": "1"
  }

@@ -18,7 +18,7 @@ Generated with [Retro Diffusion](https://retrodiffusion.ai/) (Game Asset style, 
 | `sprites/prop_ficus_32x64.png` | The ficus |
 | `sprites/prop_card_holder_32x32.png` | The card holder on the desk |
 | `sprites/prop_turnstile_32x48.png` | The exit turnstile |
-| `sprites/prop_rail_32x32.png` | The rails beside it |
+| `sprites/prop_rail_32x32.png` | Rails (generated, currently unused: the turnstile alone blocks the corridor) |
 | `ui/ui_paper_calendar_48x48.png`, `ui_paper_card_48x48.png`, `ui_paper_confirmation_48x48.png`, `ui_paper_clipping_48x48.png`, `ui_paper_document_48x48.png` | The papers in the box |
 | `ui/ui_portrait_homero_64x64.png` | The portrait in the reader |
 
@@ -30,7 +30,9 @@ All borrowed art follows the Liberated Pixel Cup geometry (32×32 tiles, 64×64 
 |---|---|---|---|---|
 | [LPC] Floors, tiles 1178 (grey carpet) and 1602 (cream floor) | bluecarrot16 and the authors listed in [CREDITS-floors.txt](public/assets/tilesets/source/CREDITS-floors.txt) | CC-BY-SA 4.0 | https://opengameart.org/content/lpc-floors | `office_lpc.png` tiles 1 and 3 |
 | [LPC] Walls, tiles 2861, 2925, 2989 (beige panel: trim, face, baseboard) | bluecarrot16 and the authors listed in [CREDITS-walls.txt](public/assets/tilesets/source/CREDITS-walls.txt) | CC-BY-SA 3.0 | https://opengameart.org/content/lpc-walls | `office_lpc.png` tiles 2, 4 and 5 |
-| [LPC Revised] The Office: ornate desk, copy machine, water cooler, laptop, office portraits (frames), coffee maker, bins | Eliza Wyatt. Elements of the ornate desk and the office portraits use assets by Lanea Zimmerman (Sharm). See [CREDITS-the-office.txt](public/assets/sprites/source/CREDITS-the-office.txt) | OGA-BY 3.0 | https://opengameart.org/content/lpc-revised-the-office · https://github.com/ElizaWy/LPC | `office_props.png` atlas |
+| [LPC] Wooden Furniture (dark wood): chairs, wall clock | bluecarrot16, Baŝto, Lanea Zimmerman (Sharm), William Thompson, Tuomo Untinen (Reemax), Janna/Lilius/Jannax. See [CREDITS-wooden-furniture.txt](public/assets/sprites/source/CREDITS-wooden-furniture.txt) | CC-BY-SA 4.0 / CC-BY-SA 3.0 / GPL 3.0 | https://opengameart.org/content/lpc-wooden-furniture | `office_props.png` atlas |
+| LPC Shelves Rework: bookshelf, drawer shelf (filing cabinet) | AntumDeluge, from work by Lanea Zimmerman (Sharm) and Tuomo Untinen (Reemax) | CC-BY-SA 3.0 / GPL 3.0 | https://opengameart.org/content/lpc-shelves-rework | `office_props.png` atlas |
+| [LPC Revised] The Office: ornate desk, copy machine, water cooler, laptop, office portraits (frames), coffee maker, bins, card table, rotary phone, mailboxes, coffee cup | Eliza Wyatt. Elements of the ornate desk and the office portraits use assets by Lanea Zimmerman (Sharm). See [CREDITS-the-office.txt](public/assets/sprites/source/CREDITS-the-office.txt) | OGA-BY 3.0 | https://opengameart.org/content/lpc-revised-the-office · https://github.com/ElizaWy/LPC | `office_props.png` atlas |
 
 ### Character (`char_homero_walk.png`)
 
