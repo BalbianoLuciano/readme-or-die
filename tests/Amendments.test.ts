@@ -39,13 +39,13 @@ describe('resolve: level 1 as specified', () => {
   });
 
   it('"correcting" half an hour, which is correct: survives if the time was fixed, but destroys that memory', () => {
-    const o = resolve(doc, using(correct('f5', 'note_meeting', 'time'), correct('f8', 'note_clipping', 'time')));
+    const o = resolve(doc, using(correct('f5', 'note_meeting', 'time'), { factId: 'f8', operation: 'note', noteId: 'note_meeting', value: 'ocho y veinte' }));
     expect(o.survives).toBe(true);
     expect(o.results.find((r) => r.fact.id === 'f8')?.effect).toBe('destroyed');
   });
 
-  it('putting the clipping time into the arrival does not save: still wrong', () => {
-    const o = resolve(doc, using(correct('f5', 'note_clipping', 'time')));
+  it('putting a wrong time into the arrival does not save: still wrong', () => {
+    const o = resolve(doc, using({ factId: 'f5', operation: 'note', noteId: 'some_other_note', value: 'nueve y cuarenta' }));
     expect(o.survives).toBe(false);
     expect(o.results.find((r) => r.fact.id === 'f5')?.effect).toBe('no_effect');
   });
@@ -64,9 +64,9 @@ describe('resolve: level 1 as specified', () => {
 });
 
 describe('applicableNotes', () => {
-  it('for the arrival time offers the two notes with a time, not the calendar', () => {
+  it('for the arrival time offers only the meeting confirmation: the alert reveals, it does not correct', () => {
     const f5 = doc.facts.find((f) => f.id === 'f5')!;
-    expect(applicableNotes(f5, texts.notes).map((n) => n.id).sort()).toEqual(['note_clipping', 'note_meeting']);
+    expect(applicableNotes(f5, texts.notes).map((n) => n.id)).toEqual(['note_meeting']);
   });
 
   it('for a name offers nothing: only striking remains', () => {

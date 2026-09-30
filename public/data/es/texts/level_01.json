@@ -28,7 +28,7 @@
     { "id": "note_calendar", "kind": "correction", "paper": "Hoja de calendario", "text": "Marzo de 2024. El 14 está en la columna de los jueves.", "values": { "date": "jueves" } },
     { "id": "note_card", "kind": "correction", "paper": "Tarjeta", "text": "Consultora Bernal. Av. Córdoba 1900, piso 4. Interno 41.", "values": { "place": "Avenida Córdoba 1900", "number": "piso 4" } },
     { "id": "note_meeting", "kind": "correction", "paper": "Confirmación impresa", "text": "Reunión 8:30 h. Av. Córdoba 1900. Llevar carpeta.", "values": { "time": "ocho y veinte", "place": "Avenida Córdoba 1900" } },
-    { "id": "note_clipping", "kind": "alert", "paper": "Recorte de diario", "text": "Av. Córdoba 1900. Clausura preventiva por derrumbe parcial. 14/03, 09:40 h.", "values": { "date": "14 de marzo de 2024", "time": "nueve y cuarenta", "place": "Avenida Córdoba 1900" } }
+    { "id": "note_clipping", "kind": "alert", "paper": "Recorte de diario", "text": "Av. Córdoba 1900. Clausura preventiva por derrumbe parcial. 14/03, 09:40 h." }
   ],
   "belongings": [
     { "id": "mug", "name": "La taza", "text": "La taza. Está lavada." },

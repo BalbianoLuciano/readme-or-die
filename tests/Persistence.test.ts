@@ -13,7 +13,7 @@ describe('Persistence', () => {
     s.enterLevel('level_01');
     s.collectNote({ id: 'n', kind: 'correction', paper: 'p', text: 't' });
     s.archiveDeath('level_01', 'recuerdo_2024.md', 'time');
-    s.addMemory({ levelId: 'level_01', factId: 'f1', text: 'x', state: 'recovered' });
+    s.addMemory({ levelId: 'level_01', file: 'recuerdo_2024.md', factId: 'f1', text: 'x', state: 'recovered' });
     s.closeLevel('level_01');
 
     const storage = fakeStorage();

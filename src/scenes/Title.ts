@@ -37,13 +37,13 @@ export class Title extends Phaser.Scene {
   create(): void {
     setStrings(this.cache.json.get(uiKey(this.locale)) as UiStrings);
     this.registry.set('locale', this.locale);
-    this.cameras.main.setBackgroundColor(COLOR.background);
+    this.cameras.main.setBackgroundColor(COLOR.paper);
 
     const title = 'readme-or-die';
-    text(this, (WIDTH - widthOf(title, 'body')) / 2, HEIGHT / 2 - 30, title, 'body', COLOR.paper);
+    text(this, (WIDTH - widthOf(title, 'body')) / 2, HEIGHT / 2 - 30, title, 'body');
     const resumes = state.closedLevels.length > 0 || state.archive.length > 0;
     const hint = t(resumes ? 'title.continue' : 'title.start');
-    text(this, (WIDTH - widthOf(hint)) / 2, HEIGHT / 2 + 10, hint, 'ui', COLOR.inkFaded);
+    text(this, (WIDTH - widthOf(hint)) / 2, HEIGHT / 2 + 10, hint);
 
     this.input.keyboard!.once('keydown-ENTER', () => {
       this.scene.start('World', { levelId: state.currentLevel });

@@ -86,7 +86,8 @@ export function validateTexts(texts: LevelTexts, doc: Document): ValidationResul
   }
   for (const n of texts.notes) {
     if (n.kind === 'ambient') warnings.push(`${n.id} is an ambient note; ambient objects are interactions, not notes`);
-    if (n.kind !== 'ambient' && (!n.values || Object.keys(n.values).length === 0)) warnings.push(`${n.id} provides no values`);
+    if (n.kind === 'correction' && (!n.values || Object.keys(n.values).length === 0)) warnings.push(`${n.id} is a correction note and provides no values`);
+    if (n.kind === 'alert' && n.values) errors.push(`${n.id} is an alert note and must not provide values: alerts reveal, corrections provide`);
   }
 
   const reflection = countWords(texts.reflection);

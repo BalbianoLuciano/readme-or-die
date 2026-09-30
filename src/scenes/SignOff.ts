@@ -4,6 +4,7 @@ import { resolve } from '../systems/Amendments';
 import { state } from '../systems/GameState';
 import { t } from '../systems/I18n';
 import type { Level } from '../types/corpus';
+import { COLOR } from '../ui/Style';
 import { panel, text, widthOf } from '../ui/Text';
 
 interface SignOffData {
@@ -29,7 +30,7 @@ export class SignOff extends Phaser.Scene {
     const level = this.registry.get('level') as Level;
     const outcome = resolve(level.document, state.amendments);
 
-    this.add.rectangle(0, 0, WIDTH, HEIGHT, 0x000000, 0.35).setOrigin(0, 0);
+    this.add.rectangle(0, 0, WIDTH, HEIGHT, COLOR.background, 0.35).setOrigin(0, 0);
     const w = 360;
     const h = 150;
     const x = (WIDTH - w) / 2;

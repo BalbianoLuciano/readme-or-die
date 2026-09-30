@@ -3,7 +3,7 @@ import { HEIGHT, WIDTH } from '../config';
 import { state } from '../systems/GameState';
 import { t } from '../systems/I18n';
 import { wrap } from '../systems/Typography';
-import type { FactType, Level, Note } from '../types/corpus';
+import type { FactType, Note } from '../types/corpus';
 import { COLOR, METRIC } from '../ui/Style';
 import { panel, text, widthOf } from '../ui/Text';
 
@@ -55,7 +55,7 @@ export class Box extends Phaser.Scene {
   }
 
   create(): void {
-    this.add.rectangle(0, 0, WIDTH, HEIGHT, 0x000000, 0.35).setOrigin(0, 0);
+    this.add.rectangle(0, 0, WIDTH, HEIGHT, COLOR.background, 0.35).setOrigin(0, 0);
     panel(this, X, Y, W, H);
     this.drawn = this.add.container(0, 0);
     this.rebuild();
@@ -101,7 +101,6 @@ export class Box extends Phaser.Scene {
   }
 
   private collect(): Item[] {
-    const level = this.registry.get('level') as Level | undefined;
     if (this.params.mode === 'choose') {
       const type = this.params.factType!;
       return state.notes.filter((n) => n.values?.[type] !== undefined).map((n) => ({ title: n.paper, body: n.text, note: n }));
@@ -110,7 +109,7 @@ export class Box extends Phaser.Scene {
       case 'notes':
         return state.notes.map((n) => ({ title: n.paper, body: n.text, note: n }));
       case 'memories':
-        return state.memories.map((m) => ({ title: level?.document.file ?? m.levelId, body: m.text, destroyed: m.state === 'destroyed' }));
+        return state.memories.map((m) => ({ title: m.file, body: m.text, destroyed: m.state === 'destroyed' }));
       case 'archive':
         return state.archive.map((a) => ({ title: a.file, body: t(`fact_types.${a.type}`) }));
       case 'belongings':
@@ -135,7 +134,7 @@ export class Box extends Phaser.Scene {
     c.add(this.add.rectangle(X, Y + 28, W, 1, COLOR.ink).setOrigin(0, 0));
 
     if (this.items.length === 0) {
-      c.add(text(this, X + 16, Y + 40, t('box.empty'), 'ui', COLOR.inkFaded));
+      c.add(text(this, X + 16, Y + 40, t('box.empty')));
     }
 
     const first = Phaser.Math.Clamp(this.selected - VISIBLE + 1, 0, Math.max(0, this.items.length - VISIBLE));
@@ -143,19 +142,19 @@ export class Box extends Phaser.Scene {
       const iy = Y + 36 + i * ITEM_H;
       const isSel = first + i === this.selected;
       // Each note is drawn as the paper it is.
-      c.add(panel(this, X + 12, iy, W - 24, ITEM_H - 4, COLOR.paper, isSel ? COLOR.ink : COLOR.inkFaded));
+      c.add(panel(this, X + 12, iy, W - 24, ITEM_H - 4, COLOR.paper, COLOR.ink));
       if (isSel) c.add(this.add.rectangle(X + 13, iy + 1, W - 26, METRIC.ui.height + 4, COLOR.ink).setOrigin(0, 0));
       c.add(text(this, X + 18, iy + 3, item.title, 'ui', isSel ? COLOR.paper : COLOR.ink));
       const lines = wrap(item.body, COLUMNS).slice(0, 2);
       lines.forEach((l, j) => {
         const ly = iy + 3 + (j + 1) * METRIC.ui.leading;
-        c.add(text(this, X + 18, ly, l, 'ui', item.destroyed ? COLOR.inkFaded : COLOR.ink));
-        // Destroyed memories stay visible, struck and darkened.
-        if (item.destroyed) c.add(this.add.rectangle(X + 18, ly + Math.floor(METRIC.ui.height / 2), widthOf(l), 1, COLOR.ink).setOrigin(0, 0));
+        c.add(text(this, X + 18, ly, l));
+        // Destroyed memories stay visible, struck and blackened: an ink bar over the middle of the line.
+        if (item.destroyed) c.add(this.add.rectangle(X + 18, ly + 2, widthOf(l), METRIC.ui.height - 3, COLOR.ink).setOrigin(0, 0));
       });
     });
 
     const footer = this.params.mode === 'choose' ? `${t('box.choose')}   ${t('box.close')}` : t('box.close');
-    c.add(text(this, X + 12, Y + H - 18, footer, 'ui', COLOR.inkFaded));
+    c.add(text(this, X + 12, Y + H - 18, footer));
   }
 }

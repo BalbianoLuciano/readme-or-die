@@ -6,7 +6,6 @@ export const COLOR = {
   inkHighContrast: 0x241e1a,
   background: 0x241e1a,
   outline: 0xfff8e0,
-  inkFaded: 0x8c8378,
 } as const;
 
 /** Fonts loaded as BitmapText. */

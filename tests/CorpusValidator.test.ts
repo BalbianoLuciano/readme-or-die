@@ -67,6 +67,12 @@ describe('validateTexts', () => {
     expect(validateTexts(texts, doc).errors.join()).toMatch(/note_meeting does not provide/);
   });
 
+  it('an alert note must not provide values', () => {
+    const { doc, texts } = load();
+    texts.notes.find((n) => n.id === 'note_clipping')!.values = { time: 'nueve y cuarenta' };
+    expect(validateTexts(texts, doc).errors.join()).toMatch(/alert note and must not provide values/);
+  });
+
   it('the intro cannot contain digits', () => {
     const { doc, texts } = load();
     texts.intro.lines[0] = 'Qué lástima, Homero. Son las 9.';

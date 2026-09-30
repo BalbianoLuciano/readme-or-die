@@ -45,7 +45,7 @@ export class ClosedRecord extends Phaser.Scene {
     line(t('closed.observed'));
     line(t(`fact_types.${this.type}`), 36);
     line(t('closed.immutable'), 28);
-    text(this, x, HEIGHT - 60, t('closed.retry'), 'ui', COLOR.inkFaded);
+    text(this, x, HEIGHT - 60, t('closed.retry'));
 
     this.input.keyboard!.once('keydown-ENTER', () => {
       this.scene.stop('World');

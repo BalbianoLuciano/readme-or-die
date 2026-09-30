@@ -198,15 +198,16 @@ export class Reader extends Phaser.Scene {
     const fact = this.currentFact();
     const op = operationFor(fact.type);
     const notes = applicableNotes(fact, state.notes);
-    const count = (enabled: boolean) => {
-      if (!enabled) return t('amend.not_applicable');
+    // "no aplica" means the operation does not match the fact's type; a matching operation with no notes says "0 notas".
+    const detail = (matches: boolean) => {
+      if (!matches) return t('amend.not_applicable');
       return notes.length === 1 ? t('amend.available_one') : t('amend.available', { n: notes.length });
     };
     const whenOk = op === 'when' && notes.length > 0;
     const whereOk = op === 'where' && notes.length > 0;
     this.options = [
-      { key: 'when', label: t('amend.when'), detail: count(whenOk), enabled: whenOk },
-      { key: 'where', label: t('amend.where'), detail: count(whereOk), enabled: whereOk },
+      { key: 'when', label: t('amend.when'), detail: detail(op === 'when'), enabled: whenOk },
+      { key: 'where', label: t('amend.where'), detail: detail(op === 'where'), enabled: whereOk },
       { key: 'strike', label: t('amend.strike'), detail: '', enabled: true },
     ];
     if (state.amendments.has(fact.id)) this.options.push({ key: 'restore', label: t('amend.restore'), detail: '', enabled: true });
@@ -232,10 +233,10 @@ export class Reader extends Phaser.Scene {
 
     this.options.forEach((o, i) => {
       const oy = y + 36 + i * 16;
-      const color = o.enabled ? COLOR.ink : COLOR.inkFaded;
+      // Disabled options are not greyed: the detail column ("no aplica", "0 notas") already says why.
       const marker = i === this.selected ? '(*)' : '( )';
-      c.add(text(this, x + 16, oy, `${marker} ${o.label}`, 'ui', color));
-      if (o.detail) c.add(text(this, x + w - 12 - widthOf(o.detail), oy, o.detail, 'ui', color));
+      c.add(text(this, x + 16, oy, `${marker} ${o.label}`));
+      if (o.detail) c.add(text(this, x + w - 12 - widthOf(o.detail), oy, o.detail));
     });
 
     const warnY = y + 36 + this.options.length * 16 + 8;
@@ -276,9 +277,8 @@ export class Reader extends Phaser.Scene {
       if (note) {
         const value = note.values![fact.type]!;
         const amendment: Amendment = { factId: fact.id, operation: 'note', noteId: note.id, value };
-        // Choosing a note whose value equals the current text changes nothing.
-        if (value === fact.text) state.amendments.delete(fact.id);
-        else state.amendments.set(fact.id, amendment);
+        // Touching a fact counts even if the note confirms the same value: correcting a correct fact has a cost.
+        state.amendments.set(fact.id, amendment);
       }
       this.closeForm();
     });

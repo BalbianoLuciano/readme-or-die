@@ -8,6 +8,8 @@ import type { Amendment } from './Amendments';
 
 export interface Memory {
   levelId: string;
+  /** Display name of the document the memory came from. */
+  file: string;
   factId: string;
   text: string;
   state: 'recovered' | 'destroyed';

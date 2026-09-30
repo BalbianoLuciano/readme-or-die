@@ -75,9 +75,9 @@ export class Verdict extends Phaser.Scene {
     for (const r of this.outcome.results) finals[r.fact.id] = r.finalText;
     for (const r of this.outcome.results) {
       if (r.effect === 'recovered') {
-        state.addMemory({ levelId: state.currentLevel, factId: r.fact.id, text: fragmentOf(document, r.fact.id, finals), state: 'recovered' });
+        state.addMemory({ levelId: state.currentLevel, file: document.file, factId: r.fact.id, text: fragmentOf(document, r.fact.id, finals), state: 'recovered' });
       } else if (r.effect === 'destroyed') {
-        state.addMemory({ levelId: state.currentLevel, factId: r.fact.id, text: fragmentOf(document, r.fact.id, {}), state: 'destroyed' });
+        state.addMemory({ levelId: state.currentLevel, file: document.file, factId: r.fact.id, text: fragmentOf(document, r.fact.id, {}), state: 'destroyed' });
       }
     }
     state.closeLevel(state.currentLevel);
