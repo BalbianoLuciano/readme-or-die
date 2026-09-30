@@ -3,7 +3,7 @@ import { HEIGHT, WIDTH } from '../config';
 import { state } from '../systems/GameState';
 import { t } from '../systems/I18n';
 import { wrap } from '../systems/Typography';
-import type { FactType, Note } from '../types/corpus';
+import type { FactType, Level, Note } from '../types/corpus';
 import { COLOR, METRIC } from '../ui/Style';
 import { panel, text, widthOf } from '../ui/Text';
 
@@ -23,14 +23,18 @@ interface Item {
   body: string;
   destroyed?: boolean;
   note?: Note;
+  /** Image key of the paper drawn at the left of the item. */
+  image?: string;
 }
 
 const X = 40;
 const Y = 24;
 const W = WIDTH - 2 * X;
 const H = HEIGHT - 2 * Y;
-const COLUMNS = Math.floor((W - 32) / METRIC.ui.width);
-const ITEM_H = 3 * METRIC.ui.leading + 6;
+const PAPER = 48;
+const ITEM_H = PAPER + 10;
+const TEXT_X = 18 + PAPER + 8;
+const COLUMNS = Math.floor((W - 24 - TEXT_X - 8) / METRIC.ui.width);
 const VISIBLE = 5;
 
 /**
@@ -101,19 +105,23 @@ export class Box extends Phaser.Scene {
   }
 
   private collect(): Item[] {
+    const level = this.registry.get('level') as Level | undefined;
     if (this.params.mode === 'choose') {
       const type = this.params.factType!;
-      return state.notes.filter((n) => n.values?.[type] !== undefined).map((n) => ({ title: n.paper, body: n.text, note: n }));
+      return state.notes.filter((n) => n.values?.[type] !== undefined).map((n) => ({ title: n.paper, body: n.text, note: n, image: n.image }));
     }
     switch (this.tab) {
       case 'notes':
-        return state.notes.map((n) => ({ title: n.paper, body: n.text, note: n }));
+        return state.notes.map((n) => ({ title: n.paper, body: n.text, note: n, image: n.image }));
       case 'memories':
         return state.memories.map((m) => ({ title: m.file, body: m.text, destroyed: m.state === 'destroyed' }));
       case 'archive':
         return state.archive.map((a) => ({ title: a.file, body: t(`fact_types.${a.type}`) }));
       case 'belongings':
-        return state.belongings.map((b) => ({ title: b.name, body: '' }));
+        return [
+          ...state.belongings.map((b) => ({ title: b.name, body: '' })),
+          ...(state.documentCollected ? [{ title: level?.document.file ?? '', body: '', image: 'ui_paper_document_48x48' }] : []),
+        ];
     }
   }
 
@@ -143,14 +151,17 @@ export class Box extends Phaser.Scene {
       const isSel = first + i === this.selected;
       // Each note is drawn as the paper it is.
       c.add(panel(this, X + 12, iy, W - 24, ITEM_H - 4, COLOR.paper, COLOR.ink));
-      if (isSel) c.add(this.add.rectangle(X + 13, iy + 1, W - 26, METRIC.ui.height + 4, COLOR.ink).setOrigin(0, 0));
-      c.add(text(this, X + 18, iy + 3, item.title, 'ui', isSel ? COLOR.paper : COLOR.ink));
+      // The paper itself, drawn as the object it is, when it has an image.
+      if (item.image) c.add(this.add.image(X + 16, iy + 3, item.image).setOrigin(0, 0));
+      const tx = item.image ? X + TEXT_X : X + 18;
+      if (isSel) c.add(this.add.rectangle(tx - 3, iy + 1, W - 26 - (tx - X - 13), METRIC.ui.height + 4, COLOR.ink).setOrigin(0, 0));
+      c.add(text(this, tx, iy + 3, item.title, 'ui', isSel ? COLOR.paper : COLOR.ink));
       const lines = wrap(item.body, COLUMNS).slice(0, 2);
       lines.forEach((l, j) => {
         const ly = iy + 3 + (j + 1) * METRIC.ui.leading;
-        c.add(text(this, X + 18, ly, l));
+        c.add(text(this, tx, ly, l));
         // Destroyed memories stay visible, struck and blackened: an ink bar over the middle of the line.
-        if (item.destroyed) c.add(this.add.rectangle(X + 18, ly + 2, widthOf(l), METRIC.ui.height - 3, COLOR.ink).setOrigin(0, 0));
+        if (item.destroyed) c.add(this.add.rectangle(tx, ly + 2, widthOf(l), METRIC.ui.height - 3, COLOR.ink).setOrigin(0, 0));
       });
     });
 

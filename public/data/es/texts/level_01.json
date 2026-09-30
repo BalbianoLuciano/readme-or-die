@@ -25,18 +25,77 @@
     "DESK_DOCUMENT": "Una impresión grapada. En la cabecera dice recuerdo_2024.md."
   },
   "notes": [
-    { "id": "note_calendar", "kind": "correction", "paper": "Hoja de calendario", "text": "Marzo de 2024. El 14 está en la columna de los jueves.", "values": { "date": "jueves" } },
-    { "id": "note_card", "kind": "correction", "paper": "Tarjeta", "text": "Consultora Bernal. Av. Córdoba 1900, piso 4. Interno 41.", "values": { "place": "Avenida Córdoba 1900", "number": "piso 4" } },
-    { "id": "note_meeting", "kind": "correction", "paper": "Confirmación impresa", "text": "Reunión 8:30 h. Av. Córdoba 1900. Llevar carpeta.", "values": { "time": "ocho y veinte", "place": "Avenida Córdoba 1900" } },
-    { "id": "note_clipping", "kind": "alert", "paper": "Recorte de diario", "text": "Av. Córdoba 1900. Clausura preventiva por derrumbe parcial. 14/03, 09:40 h." }
+    {
+      "id": "note_calendar",
+      "kind": "correction",
+      "paper": "Hoja de calendario",
+      "text": "Marzo de 2024. El 14 está en la columna de los jueves.",
+      "values": {
+        "date": "jueves"
+      },
+      "image": "ui_paper_calendar_48x48"
+    },
+    {
+      "id": "note_card",
+      "kind": "correction",
+      "paper": "Tarjeta",
+      "text": "Consultora Bernal. Av. Córdoba 1900, piso 4. Interno 41.",
+      "values": {
+        "place": "Avenida Córdoba 1900",
+        "number": "piso 4"
+      },
+      "image": "ui_paper_card_48x48"
+    },
+    {
+      "id": "note_meeting",
+      "kind": "correction",
+      "paper": "Confirmación impresa",
+      "text": "Reunión 8:30 h. Av. Córdoba 1900. Llevar carpeta.",
+      "values": {
+        "time": "ocho y veinte",
+        "place": "Avenida Córdoba 1900"
+      },
+      "image": "ui_paper_confirmation_48x48"
+    },
+    {
+      "id": "note_clipping",
+      "kind": "alert",
+      "paper": "Recorte de diario",
+      "text": "Av. Córdoba 1900. Clausura preventiva por derrumbe parcial. 14/03, 09:40 h.",
+      "image": "ui_paper_clipping_48x48"
+    }
   ],
   "belongings": [
-    { "id": "mug", "name": "La taza", "text": "La taza. Está lavada." },
-    { "id": "photo", "name": "Una foto", "text": "Una foto." },
-    { "id": "manuals", "name": "Tres manuales impresos", "text": "Tres manuales impresos. Viejos. Al pie de cada uno: H. Argento." },
-    { "id": "marker", "name": "Un marcador", "text": "Un marcador. Casi sin tinta." },
-    { "id": "badge", "name": "El lanyard con la credencial", "text": "El lanyard con la credencial. Desactivada." },
-    { "id": "calculator", "name": "Una calculadora de escritorio", "text": "Una calculadora de escritorio. Funciona." }
+    {
+      "id": "mug",
+      "name": "La taza",
+      "text": "La taza. Está lavada."
+    },
+    {
+      "id": "photo",
+      "name": "Una foto",
+      "text": "Una foto."
+    },
+    {
+      "id": "manuals",
+      "name": "Tres manuales impresos",
+      "text": "Tres manuales impresos. Viejos. Al pie de cada uno: H. Argento."
+    },
+    {
+      "id": "marker",
+      "name": "Un marcador",
+      "text": "Un marcador. Casi sin tinta."
+    },
+    {
+      "id": "badge",
+      "name": "El lanyard con la credencial",
+      "text": "El lanyard con la credencial. Desactivada."
+    },
+    {
+      "id": "calculator",
+      "name": "Una calculadora de escritorio",
+      "text": "Una calculadora de escritorio. Funciona."
+    }
   ],
   "reflection": "Bajé pensando en las cuarenta páginas.\nQue iban a quedar en un cajón, y que igual estaban bien escritas.\n\nNadie revisa un manual que funciona.\nSe nota nada más cuando está mal.\n\nMe gustaba eso, creo. Hacer algo cuya prueba de que salió bien\nes que nadie lo mencione nunca."
 }

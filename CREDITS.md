@@ -9,6 +9,19 @@ Every third-party asset is recorded here **in the same commit that adds it to th
 | Ark Pixel Font 12px monospaced (latin), v2026.09.25 | TakWolf | [SIL Open Font License 1.1](public/assets/fonts/source/OFL.txt) | https://github.com/TakWolf/ark-pixel-font | Document body. Atlas `public/assets/fonts/ark12.*` generated with `tools/generate_font.py` |
 | Ark Pixel Font 10px monospaced (latin), v2026.09.25 | TakWolf | [SIL Open Font License 1.1](public/assets/fonts/source/OFL.txt) | https://github.com/TakWolf/ark-pixel-font | Interface, text boxes and labels. Atlas `public/assets/fonts/ark10.*` |
 
+## The project's own art (generated, CC BY-SA 4.0)
+
+Generated with [Retro Diffusion](https://retrodiffusion.ai/) (Game Asset style, the project's palette image) from the prompt briefs, then downsized, palette-snapped and validated by `tools/ingest_asset.py`. No hand edits.
+
+| Asset | Use |
+|---|---|
+| `sprites/prop_ficus_32x64.png` | The ficus |
+| `sprites/prop_card_holder_32x32.png` | The card holder on the desk |
+| `sprites/prop_turnstile_32x48.png` | The exit turnstile |
+| `sprites/prop_rail_32x32.png` | The rails beside it |
+| `ui/ui_paper_calendar_48x48.png`, `ui_paper_card_48x48.png`, `ui_paper_confirmation_48x48.png`, `ui_paper_clipping_48x48.png`, `ui_paper_document_48x48.png` | The papers in the box |
+| `ui/ui_portrait_homero_64x64.png` | The portrait in the reader |
+
 ## Tiles and sprites
 
 All borrowed art follows the Liberated Pixel Cup geometry (32×32 tiles, 64×64 character frames) and is rebuilt from the sources with `tools/extract_lpc_assets.py`. It is placeholder art until the game's own art exists (phase C of the roadmap).

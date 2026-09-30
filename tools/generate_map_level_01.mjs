@@ -47,20 +47,20 @@ const props = [
   rect('counter', 27, 6, 3, 2, { sprite: 'counter' }),
   rect('laptop', 28, 6, 1, 1, { sprite: 'laptop_open', depth_offset: 40 }),
   rect('coffee_maker', 15, 2, 1, 1, { sprite: 'coffee_maker' }),
-  rect('rails', 28, 11, 1, 2),
+  rect('rails', 28, 11, 1, 2, { sprite: 'prop_rail_32x32', atlas: 'own', tile: true }),
 ];
 const interactables = [
   interactable('DRAWER', 4, 5, 1, 1, { note_id: 'note_meeting', sprite: 'none' }),
   interactable('DESK', 3, 4, 3, 2, { mechanic: 'desk', sprite: 'desk_drawers' }),
   interactable('CAL', 2, 1, 1, 1, { note_id: 'note_calendar', sprite: 'frame_wood' }),
-  interactable('CARDS', 6, 4, 1, 1, { note_id: 'note_card' }),
+  interactable('CARDS', 6, 4, 1, 1, { note_id: 'note_card', sprite: 'prop_card_holder_32x32', atlas: 'own' }),
   interactable('BOARD', 18, 1, 1, 1, { note_id: 'note_clipping', sprite: 'frame_plain' }),
   interactable('DISPENSER', 14, 2, 1, 1, { sprite: 'cooler' }),
   interactable('COPIER', 20, 3, 1, 1, { sprite: 'copier' }),
   interactable('PLANT', 21, 12, 1, 1, { sprite: 'prop_ficus_32x64', atlas: 'own' }),
   interactable('EVAC', 26, 1, 1, 1, { sprite: 'frame_plain' }),
   interactable('COUNTER', 28, 7, 1, 1, { sprite: 'none' }),
-  interactable('TURNSTILE', 28, 10, 1, 1),
+  interactable('TURNSTILE', 28, 10, 1, 1, { sprite: 'prop_turnstile_32x48', atlas: 'own' }),
 ];
 const spawn = { id: nextId++, name: 'spawn', type: '', point: true, visible: true, rotation: 0, width: 0, height: 0, x: 4 * T + 16, y: 7 * T + 32 };
 

@@ -62,6 +62,7 @@ export function propsOf(object: Phaser.Types.Tilemaps.TiledObject): Interactable
     mechanic: props.mechanic === 'desk' ? 'desk' : undefined,
     sprite: typeof props.sprite === 'string' ? props.sprite : undefined,
     atlas: props.atlas === 'own' ? 'own' : undefined,
+    tile: props.tile === true,
     depth_offset: typeof props.depth_offset === 'number' ? props.depth_offset : undefined,
   };
 }

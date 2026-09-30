@@ -54,6 +54,8 @@ export class Reader extends Phaser.Scene {
     text(this, LEFT, HEADER_Y, document.file, 'ui');
     this.pageLabel = text(this, 0, HEADER_Y, '', 'ui');
     this.body = this.add.container(0, 0);
+    // His face next to his own memory: the only place in the game where the portrait means something.
+    this.add.image(Math.floor((LEFT - 64) / 2), TOP, 'ui_portrait_homero_64x64').setOrigin(0, 0);
 
     this.factOrder = [...document.body.matchAll(/\{\{(\w+)\}\}/g)].map((m) => m[1]);
     this.cursor = 0;

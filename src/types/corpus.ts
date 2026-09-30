@@ -38,6 +38,8 @@ export interface Document {
 export interface Note {
   id: string;
   kind: NoteKind;
+  /** Image key of the paper as drawn in the box (public/assets/ui/<image>.png). */
+  image?: string;
   /** What the paper is called in the box: "Hoja de calendario". */
   paper: string;
   /** What it says, readable directly in the box. */
@@ -85,6 +87,8 @@ export interface InteractableProps {
   sprite?: string;
   /** 'own': `sprite` is a standalone image key (the project's own art), not a frame of the borrowed atlas. */
   atlas?: 'own';
+  /** Repeat the image over the object's rectangle (rails, fences). */
+  tile?: boolean;
   /** Added to the draw depth (bottom edge) when an object must sit on top of another. */
   depth_offset?: number;
 }

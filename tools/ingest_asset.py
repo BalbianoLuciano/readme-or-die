@@ -49,9 +49,15 @@ def main(argv: list[str]) -> int:
         img.save(step1)
 
     img = Image.open(step1).convert('RGBA')
-    if img.width % tw or img.height % th or img.width // tw != img.height // th:
-        raise SystemExit(f'{img.size} is not an integer multiple of {tw}x{th}')
-    factor = img.width // tw
+    # Generators sometimes return an odd canvas (e.g. 64×88 for a 32×48 target). Pad with transparency
+    # to the next multiple, bottom-aligned and centred, so the drawing itself is never resampled unevenly.
+    factor = max(1, round(img.width / tw))
+    cw, ch = tw * factor, th * factor
+    if img.size != (cw, ch):
+        canvas = Image.new('RGBA', (cw, ch), (0, 0, 0, 0))
+        canvas.alpha_composite(img.crop((0, 0, min(img.width, cw), min(img.height, ch))), ((cw - min(img.width, cw)) // 2, ch - min(img.height, ch)))
+        img = canvas
+        print(f'padded {Image.open(step1).size} → {img.size}')
     step2 = work / f'{target}.small.png'
     img.resize((tw, th), Image.NEAREST).save(step2)
     # Binary alpha after resizing.

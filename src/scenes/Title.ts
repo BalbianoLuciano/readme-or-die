@@ -23,7 +23,10 @@ export class Title extends Phaser.Scene {
     this.load.image('office_lpc', 'assets/tilesets/office_lpc.png');
     this.load.atlas('office_props', 'assets/sprites/office_props.png', 'assets/sprites/office_props.json');
     // The project's own props, one image each, keyed by file name.
-    for (const own of ['prop_ficus_32x64']) this.load.image(own, `assets/sprites/${own}.png`);
+    for (const own of ['prop_ficus_32x64', 'prop_card_holder_32x32', 'prop_rail_32x32', 'prop_turnstile_32x48']) this.load.image(own, `assets/sprites/${own}.png`);
+    for (const ui of ['ui_paper_calendar_48x48', 'ui_paper_card_48x48', 'ui_paper_confirmation_48x48', 'ui_paper_clipping_48x48', 'ui_paper_document_48x48', 'ui_portrait_homero_64x64']) {
+      this.load.image(ui, `assets/ui/${ui}.png`);
+    }
     this.load.spritesheet('homero', 'assets/sprites/char_homero_walk.png', { frameWidth: 64, frameHeight: 64 });
 
     const saved = load();

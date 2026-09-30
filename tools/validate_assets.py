@@ -31,6 +31,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from palette import FORBIDDEN, PALETTE_HEX, rgb_to_hex  # noqa: E402
 
 BUDGET = {'A': 4, 'B': 7, 'C': 14}
+CHARACTER_BUDGET = 24
 
 
 def validate(path: Path, level: str | None, allow_lpc: bool, allow_shadow: bool) -> list[str]:
@@ -65,9 +66,14 @@ def validate(path: Path, level: str | None, allow_lpc: bool, allow_shadow: bool)
         if outside:
             errors.append(f'{len(outside)} colours outside the palette: {outside[:8]}{"…" if len(outside) > 8 else ""}')
 
-    lvl = level or ('A' if kind == 'tile' else 'C')
-    if len(colours) > BUDGET[lvl]:
-        errors.append(f'{len(colours)} colours, level {lvl} allows {BUDGET[lvl]}')
+    # Faces get the character budget: the design gives the character ~17 colours across its ramps.
+    if kind == 'char' or name.startswith('ui_portrait'):
+        if len(colours) > CHARACTER_BUDGET:
+            errors.append(f'{len(colours)} colours, character art allows {CHARACTER_BUDGET}')
+    else:
+        lvl = level or ('A' if kind == 'tile' else 'C')
+        if len(colours) > BUDGET[lvl]:
+            errors.append(f'{len(colours)} colours, level {lvl} allows {BUDGET[lvl]}')
 
     if kind == 'tile':
         w, h = img.size
